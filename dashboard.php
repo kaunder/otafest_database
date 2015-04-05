@@ -174,6 +174,7 @@ header("Location: index.php");
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 	    <li><a href="myinfo.php">My Info</a></li>
+	    <li><a href="myshifts.php">My Shifts</a></li>
 	    <?php
 		//Perform access level check to det which tabs should be shown
 		//Volunteers have a more restricted set of operations they can perform

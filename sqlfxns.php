@@ -58,3 +58,16 @@ SQL;
 return $sql;
 }
 
+/*
+*Return all shifts with associate department
+*/
+function SQLgetShifts(){
+$sql=<<<SQL
+	SELECT W.dept_name, W.shift_start, W.shift_end
+	FROM Volunteer V, VolunteerWorks W
+	WHERE V.volunteer_id=:userid AND W.volunteer_id=V.volunteer_id AND W.convention_name=:convoyr
+
+SQL;
+
+return $sql;
+}

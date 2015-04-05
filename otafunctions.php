@@ -197,7 +197,7 @@ function getVolDeptsByYearWMgr($username, $convoyear){
 /*
 *Return all convention years (used for drop-down menus with list of convo years)
 */
-function getConvoYears(){
+function getConvoYears($dest){
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetConvoYears();
@@ -218,7 +218,7 @@ function getConvoYears(){
 		//Build the formatted string to be returned
 		while($row=$stmt->fetch()){
 			$yr=$row['convention_name'];
-			$temp.="<li><a href=\"dashboard.php?convoyear=$yr\">$yr</a></li>";
+			$temp.="<li><a href=\"$dest?convoyear=$yr\">$yr</a></li>";
 		}
 	}
 
@@ -271,6 +271,47 @@ function getVolName($username){
 		}
 	}
 	return $temp;
+}
+
+/*
+*Return all shifts for all departments in a given convention year
+*/
+function getShifts($username, $convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetShifts();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':userid',$username,PDO::PARAM_INT);
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$shifts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Shift Start</th><th>Shift End</th></tr>";
+
+	if($shifts){
+	while($shift=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$deptname=$shift['dept_name'];
+		$shiftstart=$shift['shift_start'];
+		$shiftend=$shift['shift_end'];
+		$temp.="<tr><td> $deptname</td><td>$shiftstart</td><td>$shiftend</td></tr>";
+		}
+	}
+		$temp.="</table>";
+return $temp;
+
 }
 
 
