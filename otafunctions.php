@@ -314,5 +314,44 @@ return $temp;
 
 }
 
+/*
+*Return all past scholarship winners in table format
+*/
+function getSchoWinners(){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetSchoWinners();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$schols=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Winner</th><th>Convention</th><th>Scholarship Amount</th></tr>";
+
+	if($schols){
+	while($schol=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$winnerfirst=$schol['firstName'];
+		$winnerlast=$schol['lastName'];
+		$convo=$schol['convention_name'];
+		$amt=$schol['amount'];
+		$temp.="<tr><td> $winnerfirst $winnerlast</td><td>$convo</td><td>$amt</td></tr>";
+		}
+	}
+		$temp.="</table>";
+return $temp;
+
+}
+
+
 
 

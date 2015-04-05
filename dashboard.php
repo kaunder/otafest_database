@@ -185,8 +185,8 @@ header("Location: index.php");
             		echo"<li><a href=\"#\">Conventions</a></li>";
 		}
 	    ?>         
-	        <li><a href="#">Contests</a></li>
-            	<li><a href="#">Scholarships</a></li>
+	        <li><a href="contests.php">Contests</a></li>
+            	<li><a href="scholarships.php">Scholarships</a></li>
      	</ul>
         </div>
         

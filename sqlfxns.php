@@ -71,3 +71,16 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Return all scholarship winners with year and amount won
+*/
+function SQLgetSchoWinners(){
+$sql=<<<SQL
+	SELECT scholarship_name, convention_name, amount, firstName, lastName
+	FROM Volunteer V, Scholarship S
+	WHERE S.scholarship_winner=V.volunteer_id
+SQL;
+
+return $sql;
+}
