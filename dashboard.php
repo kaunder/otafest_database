@@ -173,7 +173,7 @@ header("Location: index.php");
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-	    <li><a href="#">My Info</a></li>
+	    <li><a href="myinfo.php">My Info</a></li>
 	    <?php
 		//Perform access level check to det which tabs should be shown
 		//Volunteers have a more restricted set of operations they can perform
@@ -189,94 +189,6 @@ header("Location: index.php");
      	</ul>
         </div>
         
-	<div class="col-sm-9 col-md-10 main">
-
-	<h1 class="page-header">Hi, <?php echo getVolName($username);?>!</h1>
-
-          <h3>Your Information:</h3>
-
-	  <div class="container-fluid voffset">
-	       <?php
-	       echo getVolInfo($username);
 	
-	       ?>
-	  </div>
 
-
-	   <h3> Your Departments:</h3>
-	  <!-- Single button -->
-	  <div class="btn-group">
-<!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
-
-	    <!-- Get convention year, if it's already been set-->
-	       <?php
-	       if(isset($_GET['convoyear'])){
-		   $convoyear = $_GET['convoyear'];
-		}else{
-		   $convoyear="Select Convention Year:";
-		}
-	       ?>
-
-
-	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
-		  </button>
-		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYears();?>
-		    </ul>
-	   </div>
-
-
-	  <div class="container-fluid voffset">
-	       <?php
-	       if(isset($_GET['convoyear'])){
-		   $convoyear = $_GET['convoyear'];
-		echo getVolDeptsByYearWMgr($username, $convoyear);
-		}
-	       ?>
-	  </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
-    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-    <script src="../../assets/js/vendor/holder.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-    <!-- Define the custom button function-->
-    <script src="js/otafest.js"></script>
-    <!-- Only call the initpage function once the page is ready-->
-    <script>
-	$(document).ready(initpage);
-    </script>
-  </body>
-</html>
-
-<html>
-    <head>
-        <title>
-	  Otafest Volunteer Database - Login
-	</title>
-
-
-
-
-
-
-
-
-	
-    </head>
-    
-    <body> 
-
-    <div class="container">
-
-
-</div>
-</body>
-</html>
+ 

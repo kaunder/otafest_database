@@ -49,7 +49,7 @@
 	 Please Login To Continue
        </h2>
 
-<form action="dashboard.php" method="post">
+<form action="myinfo.php" method="post">
 <table border="0" >
 <tr>
 <td>
