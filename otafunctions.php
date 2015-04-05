@@ -93,14 +93,22 @@ function getVolInfo($username){
 	if($vols){
 	$vol=$stmt->fetch();
 		//Build the formatted string to be returned
-
+		//Replace any null values with "none"
 		$temp=$temp."<li> Full Name: ".$vol['firstName']." ".$vol['lastName']."</li>";
-		$temp.="<li> Nickname: ".$vol['nickName']."</li>";
+		if(!is_null($vol['nickName'])){
+			$temp.="<li> Nickname: ".$vol['nickName']."</li>";
+		}else{
+			$temp.="<li> Nickname: (none)</li>";
+		}
 		$temp.="<li> Phone Number: ".$vol['phoneNumber']."</li>";
 		$temp.="<li>Date Of Birth: ".$vol['date_of_birth']."</li>";
-		$temp.="<li>Emergency Contact: ".$vol['contact_name']."</li>";
-		$temp.="<li>Emergency Contact Relationship: ".$vol['relationship']."</li>";
-		$temp.="<li>Emergency Contact Phone Number: ".$vol['phone_num']."</li>";
+		if(!is_null($vol['contact_name'])){
+			$temp.="<li>Emergency Contact: ".$vol['contact_name']."</li>";
+			$temp.="<li>Emergency Contact Relationship: ".$vol['relationship']."</li>";
+			$temp.="<li>Emergency Contact Phone Number: ".$vol['phone_num']."</li>";
+		}else{
+			$temp.="<li>Emergency Contact: (none)</li>";
+		}
 		$temp.="</ul>";
 
 	 	return $temp;

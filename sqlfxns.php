@@ -19,7 +19,7 @@ return $sql;
 //Return all depts worked by a selected volunteer for a selected year
 function SQLgetVolDeptsByYear(){
 $sql=<<<SQL
-	SELECT W.dept_name
+	SELECT DISTINCT W.dept_name
 	FROM Volunteer V LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id 
 	WHERE V.volunteer_id=:userid AND W.convention_name=:convoyr
 SQL;

@@ -173,14 +173,20 @@ header("Location: index.php");
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-            <li><a href="#">My Info</a></li>
-            <li><a href="#">Manage My Volunteers</a></li>
-            <li><a href="#">Departments</a></li>
-            <li><a href="#">Panels</a></li>
-            <li><a href="#">Conventions</a></li>
-            <li><a href="#">Contests</a></li>
-            <li><a href="#">Scholarships</a></li>
-          </ul>
+	    <li><a href="#">My Info</a></li>
+	    <?php
+		//Perform access level check to det which tabs should be shown
+		//Volunteers have a more restricted set of operations they can perform
+            	if($accesslev<2){
+			echo"<li><a href=\"#\">Manage My Volunteers</a></li>";
+            		echo"<li><a href=\"#\">Departments</a></li>";
+            		echo"<li><a href=\"#\">Panels</a></li>";
+            		echo"<li><a href=\"#\">Conventions</a></li>";
+		}
+	    ?>         
+	        <li><a href="#">Contests</a></li>
+            	<li><a href="#">Scholarships</a></li>
+     	</ul>
         </div>
         
 	<div class="col-sm-9 col-md-10 main">
