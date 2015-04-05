@@ -14,7 +14,7 @@
 	       if(isset($_GET['convoyear'])){
 		   $convoyear = $_GET['convoyear'];
 		}else{
-		   $convoyear="Select Convention Year:";
+		   $convoyear="Select Convention:";
 		}
 	       ?>
 

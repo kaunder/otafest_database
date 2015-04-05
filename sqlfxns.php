@@ -84,3 +84,15 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Return lal contests run in a given convention year
+*/
+function SQLgetContests(){
+$sql=<<<SQL
+	SELECT * FROM Contest
+	WHERE convention_name=:convoyr;
+SQL;
+
+return $sql;
+}

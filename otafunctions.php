@@ -355,3 +355,41 @@ return $temp;
 
 
 
+/*
+*Return all Contests run in a given convention year
+*/
+function getContests($convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetContests();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$contests=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Contest Name</th><th>Contest Type</th></tr>";
+
+	if($contests){
+	while($contest=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$name=$contest['contest_name'];
+		$type=$contest['contest_type'];
+		$temp.="<tr><td> $name</td><td>$type</td></tr>";
+		}
+	}
+		$temp.="</table>";
+return $temp;
+
+}
