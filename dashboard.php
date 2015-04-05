@@ -17,8 +17,28 @@
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
+ <!--Include bootstrap stuff for fancy stylz -->
+
+ <!-- Latest compiled and minified CSS -->
+ <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+ <!-- Optional theme -->
+ <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+
+ <!-- Load jquery for no good reason other than bootstrap complaining-->
+ <script src="/js/jquery-1.11.2.min.js"></script>
+
+ <!-- Latest compiled and minified JavaScript -->
+ <script src="/js/bootstrap.min.js"></script>
+
+
     <!-- Custom styles for this template -->
     <link href="dashboard.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="otatheme.css">
+
+
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -55,8 +75,8 @@ if (isset($_POST['username']) and isset($_POST['password'])){
    //3.1.1 Assigning posted values to variables.
    $username = $_POST['username'];
    $password = $_POST['password'];
-
-
+   //$accesslev = $_POST['accesslev'];
+   
 
    //3.1.2 Checking the values are existing in the database or not
    $query = "SELECT access_level FROM Volunteer WHERE volunteer_id=:uid";
@@ -107,6 +127,7 @@ if (isset($_POST['username']) and isset($_POST['password'])){
 //3.1.4 if the user is logged in Greets the user with message
 if (isset($_SESSION['username'])){
 $username = $_SESSION['username'];
+$accesslev=$_SESSION['accesslev'];
 
 //Set $usertitle string based on user's access level
 if($accesslev==2){
@@ -163,10 +184,37 @@ header("Location: index.php");
         </div>
         
 	<div class="col-sm-9 col-md-10 main">
-          <h1 class="page-header">Here's Your Information:</h1>
-	  <div class="container-fluid">
+
+	<h1 class="page-header">Hi, <?php echo getVolName($username);?>!</h1>
+
+          <h3>Your Information:</h3>
+
+	  <div class="container-fluid voffset">
 	       <?php
-		echo getVolInfo($username);
+	       echo getVolInfo($username);
+	
+	       ?>
+	  </div>
+
+
+	   <h3> Your Departments:</h3>
+	  <!-- Single button -->
+	  <div class="btn-group">
+	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+	        Select Convention Year: <span class="caret"></span>
+		  </button>
+		    <ul class="dropdown-menu" role="menu">
+		    	<?php echo getConvoYears();?>
+		    </ul>
+	   </div>
+
+
+	  <div class="container-fluid voffset">
+	       <?php
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
+		echo getVolDeptsByYear($username, $convoyear);
+		}
 	       ?>
 	  </div>
         </div>
@@ -185,13 +233,6 @@ header("Location: index.php");
   </body>
 </html>
 
-
-
-
-
-
-
-
 <html>
     <head>
         <title>
@@ -199,27 +240,11 @@ header("Location: index.php");
 	</title>
 
 
-<!--Include bootstrap stuff for fancy stylz -->
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="/css/bootstrap.min.css">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="/css/bootstrap-theme.min.css">
-
-<!-- Load jquery for no good reason other than bootstrap complaining-->
-<script src="/js/jquery-1.11.2.min.js"></script>
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="/js/bootstrap.min.js"></script>
 
 
 
 
 
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" type="text/css" href="otatheme.css">
 
 	
     </head>
