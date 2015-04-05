@@ -1,0 +1,10 @@
+ <div class="btn-group">
+      <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#">Select a Region/City <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        <li><a href="#">Item I</a></li>
+        <li><a href="#">Item II</a></li>
+        <li><a href="#">Item III</a></li>
+        <li class="divider"></li>
+        <li><a href="#">Other</a></li>
+      </ul>
+    </div>

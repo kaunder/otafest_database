@@ -206,8 +206,19 @@ header("Location: index.php");
 	   <h3> Your Departments:</h3>
 	  <!-- Single button -->
 	  <div class="btn-group">
-	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-	        Select Convention Year: <span class="caret"></span>
+<!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
+
+	    <!-- Get convention year, if it's already been set-->
+	       <?php
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
+		}else{
+		   $convoyear="Select Convention Year:";
+		}
+	       ?>
+
+
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
 		    	<?php echo getConvoYears();?>
@@ -219,7 +230,7 @@ header("Location: index.php");
 	       <?php
 	       if(isset($_GET['convoyear'])){
 		   $convoyear = $_GET['convoyear'];
-		echo getVolDeptsByYear($username, $convoyear);
+		echo getVolDeptsByYearWMgr($username, $convoyear);
 		}
 	       ?>
 	  </div>
@@ -236,6 +247,12 @@ header("Location: index.php");
     <script src="../../assets/js/vendor/holder.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+    <!-- Define the custom button function-->
+    <script src="js/otafest.js"></script>
+    <!-- Only call the initpage function once the page is ready-->
+    <script>
+	$(document).ready(initpage);
+    </script>
   </body>
 </html>
 

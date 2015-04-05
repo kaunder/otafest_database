@@ -27,6 +27,17 @@ SQL;
 return $sql;
 }
 
+//Return all depts worked by a selected volunteer for a selected year with associated dept manager
+function SQLgetVolDeptsByYearWMgr(){
+$sql=<<<SQL
+	SELECT W.convention_name, W.dept_name, M.firstName, M.lastName, M.phoneNumber
+	FROM Volunteer U JOIN VolunteerWorks W ON U.volunteer_id=W.volunteer_id JOIN Department D ON W.dept_name=D.dept_name AND W.convention_name=D.convention_name JOIN Volunteer M ON D.manager_id= M.volunteer_id
+	WHERE U.volunteer_id=:userid AND W.convention_name=:convoyr
+SQL;
+
+return $sql;
+}
+
 //Return all convention names (years)
 function SQLgetConvoYears(){
 $sql=<<<SQL
@@ -46,3 +57,4 @@ SQL;
 
 return $sql;
 }
+

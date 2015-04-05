@@ -153,6 +153,48 @@ function getVolDeptsByYear($username, $convoyear){
 
 
 /*
+*Return all departments worked by a volunteer for a given convention year with dept manager
+*/
+function getVolDeptsByYearWMgr($username, $convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolDeptsByYearWMgr();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':userid',$username,PDO::PARAM_INT);
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Manager</th><th>Manager's Phone Number</th></tr>";
+
+	//$temp.="<h4>Departments Worked During $convoyear:</h4>";
+	if($vols){
+	while($dept=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$deptname=$dept['dept_name'];
+		$mgrfname=$dept['firstName'];
+		$mgrlname=$dept['lastName'];
+		$mgrphone=$dept['phoneNumber'];
+		$temp.="<tr><td> $deptname</td><td>$mgrfname $mgrlname</td><td>$mgrphone</td></tr>";
+		}
+	}
+		$temp.="</table>";
+		return $temp;
+}
+
+
+/*
 *Return all convention years (used for drop-down menus with list of convo years)
 */
 function getConvoYears(){
