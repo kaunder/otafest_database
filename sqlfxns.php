@@ -96,3 +96,14 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Insert a new Contest into the database
+*/
+function SQLcreateNewContest(){
+$sql=<<<SQL
+	INSERT INTO Contest VALUES(:newname, :newtype, :newconvo)
+SQL;
+
+return $sql;
+}

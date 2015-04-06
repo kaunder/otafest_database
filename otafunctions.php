@@ -225,6 +225,39 @@ function getConvoYears($dest){
 return $temp;
 }
 
+
+/*
+*Return all convention years - when you need two indep convo years drop downs
+*on the same page (pass in existing year to preserve orig button value)
+*/
+function getConvoYearsAdd($dest, $exyr){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetConvoYears();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$years=$stmt->execute();
+
+	$temp="";
+
+	if($years){
+		//Build the formatted string to be returned
+		while($row=$stmt->fetch()){
+			$yr=$row['convention_name'];
+			$temp.="<li><a href=\"$dest?convoyearadd=$yr&convoyear=$exyr\">$yr</a></li>";
+		}
+	}
+
+return $temp;
+}
+
 /*
 *Connect to Volsunteer Database
 */
@@ -392,4 +425,31 @@ function getContests($convoyear){
 		$temp.="</table>";
 return $temp;
 
+}
+
+/*
+*Insert a new Contest in the database
+*/
+function createNewContest($newname, $newtype, $newconvo){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewContest();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':newname',$newname,PDO::PARAM_STR);
+	 $stmt->bindParam(':newtype',$newtype,PDO::PARAM_STR);
+	 $stmt->bindParam(':newconvo',$newconvo,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$contests=$stmt->execute();
+
+return $contests;
 }
