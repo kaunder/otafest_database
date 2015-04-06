@@ -453,3 +453,67 @@ function createNewContest($newname, $newtype, $newconvo){
 
 return $contests;
 }
+
+/*
+*Insert a new Scholarship winner in the database
+*/
+function createNewScholWinner($scholname, $convoyearadd, $wfname, $wlname, $amount){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewScholWinner();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':scholname',$scholname,PDO::PARAM_STR);
+	 $stmt->bindParam(':convoyr',$convoyearadd,PDO::PARAM_STR);
+	 $stmt->bindParam(':wfname',$wfname,PDO::PARAM_STR);
+	 $stmt->bindParam(':wlname',$wlname,PDO::PARAM_STR);
+	 $stmt->bindParam(':amount',$amount,PDO::PARAM_STR);
+	 
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$contests=$stmt->execute();
+
+return $contests;
+}
+
+
+
+/*
+*Return names of all volunteers, formatted for use in a drop-down list
+*/
+function getVolunteersForDropdown($dest){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolunteersForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$temp.="<li><a href=\"$dest?fname=$fname&lname=$lname\">$lname, $fname</a></li>";
+		}
+	}
+
+return $temp;
+}

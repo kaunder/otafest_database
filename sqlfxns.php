@@ -107,3 +107,26 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Insert a new Scholarship winner into the database
+*/
+function SQLcreateNewScholWinner(){
+$sql=<<<SQL
+	INSERT INTO Scholarship VALUES(:scholname, :convoyr, :amount, :wfname, :wlname)
+SQL;
+return $sql;
+}
+
+/*
+*Get all volunteers ordered alphabetically by last name
+*(for use in a drop-down menu)
+*/
+function SQLgetVolunteersForDropdown(){
+$sql=<<<SQL
+ SELECT lastName, firstName FROM volunteerDatabase.Volunteer ORDER BY lastName ASC
+
+SQL;
+
+return $sql;
+}

@@ -3,7 +3,7 @@
 ?>
 <!-- My Shifts specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header"></h1>
+	<h1 class="page-header">Shifts</h1>
 	   <h3> Your Shifts:</h3>
 	  <!-- Single button -->
 	  <div class="btn-group">
