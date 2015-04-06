@@ -113,7 +113,7 @@ return $sql;
 */
 function SQLcreateNewScholWinner(){
 $sql=<<<SQL
-	INSERT INTO Scholarship VALUES(:scholname, :convoyr, :amount, :wfname, :wlname)
+	INSERT INTO Scholarship values(:scholname, :convoyr, :amount, (SELECT volunteer_id FROM Volunteer WHERE firstName=:wfname AND lastName=:wlname))
 SQL;
 return $sql;
 }

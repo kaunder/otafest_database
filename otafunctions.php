@@ -457,7 +457,13 @@ return $contests;
 /*
 *Insert a new Scholarship winner in the database
 */
-function createNewScholWinner($scholname, $convoyearadd, $wfname, $wlname, $amount){
+function createNewScholWinner($scholname, $convoyearadd, $winnername, $amount){
+
+	 //Split $winnername string on ',' to recover fname, lname
+	 $names=explode (', ' ,$winnername);
+	 $wlname=$names[0];
+	 $wfname=$names[1];
+
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLcreateNewScholWinner();
@@ -474,14 +480,20 @@ function createNewScholWinner($scholname, $convoyearadd, $wfname, $wlname, $amou
 	 $stmt->bindParam(':convoyr',$convoyearadd,PDO::PARAM_STR);
 	 $stmt->bindParam(':wfname',$wfname,PDO::PARAM_STR);
 	 $stmt->bindParam(':wlname',$wlname,PDO::PARAM_STR);
-	 $stmt->bindParam(':amount',$amount,PDO::PARAM_STR);
+	 $stmt->bindParam(':amount',$amount,PDO::PARAM_INT);
 	 
 
 	 //create a variable for the result of the query
 	 //execute the statment - returns a bool of whether successfull
-	$contests=$stmt->execute();
+	$schols=$stmt->execute();
+	//echo "$sql<br>";
+	//echo "$scholname<br>";
+	//echo "$convoyearadd<br>";
+	//echo "$wlname<br>";
+	//echo "$wfname<br>";
+	//echo "$amount<br>";
 
-return $contests;
+return $schols;
 }
 
 
@@ -489,7 +501,7 @@ return $contests;
 /*
 *Return names of all volunteers, formatted for use in a drop-down list
 */
-function getVolunteersForDropdown($dest){
+function getVolunteersForDropdown($dest, $exyr){
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetVolunteersForDropdown();
@@ -511,9 +523,14 @@ function getVolunteersForDropdown($dest){
 		while($vol=$stmt->fetch()){
 			$fname=$vol['firstName'];
 			$lname=$vol['lastName'];
-			$temp.="<li><a href=\"$dest?fname=$fname&lname=$lname\">$lname, $fname</a></li>";
+			$winnername=$lname.", ".$fname;
+			$temp.="<li><a href=\"$dest?winnername=$winnername&convoyearadd=$exyr\">$lname, $fname</a></li>";
+//Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed
 		}
 	}
 
 return $temp;
 }
+
+
+
