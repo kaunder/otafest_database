@@ -15,15 +15,15 @@
     <title>Otafest Database</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
  <!--Include bootstrap stuff for fancy stylz -->
 
  <!-- Latest compiled and minified CSS -->
- <link rel="stylesheet" href="/css/bootstrap.min.css">
+ <link rel="stylesheet" href="css/bootstrap.min.css">
 
  <!-- Optional theme -->
- <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+ <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
  <!-- Load jquery for no good reason other than bootstrap complaining-->
  <script src="/js/jquery-1.11.2.min.js"></script>

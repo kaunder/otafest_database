@@ -38,8 +38,11 @@
 	       ?>
 	  </div>
 
-	  <h3> Create New Contest</h3>
 
+<!-- Only users with Robert Collier level privilege and higher can create new contests-->
+<!-- Therefore check privileges before each -->
+      
+	  <h3> Create New Contest</h3>
 <form action="contests.php" method="get">
 
 	  <b>Convention Year:</b> <!-- Single button -->
