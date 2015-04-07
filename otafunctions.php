@@ -534,3 +534,45 @@ return $temp;
 
 
 
+/*
+*Return all departments with manager info for a given year
+*/
+function getDepts($convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetDepts();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$depts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Manager</th><th>Manager Phone Number</th></tr>";
+
+	if($depts){
+	while($dept=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$depname=$dept['dept_name'];
+		$mgrfname=$dept['firstName'];
+		$mgrlname=$dept['lastName'];
+		$mgrphone=$dept['phoneNumber'];
+		$temp.="<tr><td> $depname</td><td>$mgrfname $mgrlname</td><td>$mgrphone</td></tr>";
+		}
+	}
+		$temp.="</table>";
+
+
+return $temp;
+}
+

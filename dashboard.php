@@ -26,10 +26,10 @@
  <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
  <!-- Load jquery for no good reason other than bootstrap complaining-->
- <script src="/js/jquery-1.11.2.min.js"></script>
+ <script src="js/jquery-1.11.2.min.js"></script>
 
  <!-- Latest compiled and minified JavaScript -->
- <script src="/js/bootstrap.min.js"></script>
+ <script src="js/bootstrap.min.js"></script>
 
 
     <!-- Custom styles for this template -->
@@ -179,12 +179,12 @@ header("Location: index.php");
 		//Perform access level check to det which tabs should be shown
 		//Volunteers have a more restricted set of operations they can perform
             	if($accesslev<2){
-			echo"<li><a href=\"#\">Manage My Volunteers</a></li>";
-            		echo"<li><a href=\"#\">Departments</a></li>";
-            		echo"<li><a href=\"#\">Panels</a></li>";
-            		echo"<li><a href=\"#\">Conventions</a></li>";
+			echo"<li><a href=\"volunteers.php\">Manage Volunteers</a></li>";
+            		echo"<li><a href=\"depts.php\">Manage Departments</a></li>";
 		}
 	    ?>         
+	    	<li><a href="panels.php">Panels</a></li>
+	    	<li><a href="conventions.php">Conventions</a></li>
 	        <li><a href="contests.php">Contests</a></li>
             	<li><a href="scholarships.php">Scholarships</a></li>
      	</ul>

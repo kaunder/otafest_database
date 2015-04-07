@@ -130,3 +130,17 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Get all departments with manager info for a given convention year
+*/
+function SQLgetDepts(){
+$sql=<<<SQL
+	SELECT D.dept_name, V.firstName, V.lastName, V.phoneNumber
+	FROM Volunteer V, Department D
+	WHERE V.volunteer_id=D.manager_id AND D.convention_name=:convoyr
+
+SQL;
+
+return $sql;
+}
