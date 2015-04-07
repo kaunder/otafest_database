@@ -30,13 +30,18 @@
 	   <b>Winner:</b> <!-- Single button -->
 	  <div class="btn-group">
 
-	    <!-- Get volname, if it's already been set-->
+	    <!-- Get volname, id, if already set-->
 	       <?php
 	       if(isset($_GET['volname'])){
 		   $volname = $_GET['volname'];
 		}else{
 		   $volname="Select Winner:";
 		}
+		
+		if(isset($_GET['volid'])){
+		   $volid=$_GET['volid'];
+		}
+
 	       ?>
 
 

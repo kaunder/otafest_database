@@ -523,8 +523,11 @@ function getVolunteersForDropdown($dest, $exyr){
 		while($vol=$stmt->fetch()){
 			$fname=$vol['firstName'];
 			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
 			$volname=$lname.", ".$fname;
-			$temp.="<li><a href=\"$dest?volname=$volname&convoyearadd=$exyr\">$lname, $fname</a></li>";
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname=$volname&volid=$volid&convoyearadd=$exyr\">$lname, $fname</a></li>";
 //Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
 		}
 	}
@@ -624,10 +627,10 @@ function getVolIDFromName($volname){
 /*
 *Display all info for given volunteer, with comments (for managers)
 */
-function getVolInfoWithComments($volname){
+function getVolInfoWithComments($volid){
 	 
 	//Call helper function to get vol id from names
-	$id=getVolIDFromName($volname);
+	//$id=getVolIDFromName($volname);
 
 	
 	/*Handle the "George Foreman" case - check whether there is more than
@@ -637,7 +640,7 @@ function getVolInfoWithComments($volname){
 
 	//YOU ARE HERE - this will need to be changed once you're handling
 	//the George Foreman case
-	$volid=$id[0];
+	//$volid=$id[0];
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetVolInfoWithComments();

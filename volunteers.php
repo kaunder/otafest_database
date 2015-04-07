@@ -10,12 +10,16 @@
 	   <b>Volunteer:</b> <!-- Single button -->
 	  <div class="btn-group">
 
-	    <!-- Get volunteer name, if it's already been set-->
+	    <!-- Get volunteer name,id if it's already been set-->
 	       <?php
 	       if(isset($_GET['volname'])){
 		   $volname = $_GET['volname'];
 		}else{
 		   $volname="Select Volunteer:"; 
+		}
+
+		if(isset($_GET['volid'])){
+		   $volid=$_GET['volid'];
 		}
 	       ?>
 
@@ -34,8 +38,8 @@
 	    <!--Display requested volunteer info-->
 	  <div class="container-fluid voffset">
 	       <?php
-		if(isset($_GET['volname'])){
-		echo getVolInfoWithComments($volname);
+		if(isset($_GET['volid'])){
+		echo getVolInfoWithComments($volid);
 		}
 	       ?>
 	  </div>

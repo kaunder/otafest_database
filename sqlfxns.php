@@ -124,7 +124,7 @@ return $sql;
 */
 function SQLgetVolunteersForDropdown(){
 $sql=<<<SQL
- SELECT lastName, firstName FROM volunteerDatabase.Volunteer ORDER BY lastName ASC
+ SELECT lastName, firstName, volunteer_id FROM volunteerDatabase.Volunteer ORDER BY lastName ASC
 
 SQL;
 
