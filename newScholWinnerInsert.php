@@ -10,8 +10,8 @@
 		if(isset($_GET['amount'])){
 		   $amount=$_GET['amount'];
 		}
-		if(isset($_GET['winnername'])){
-		   $winnername=$_GET['winnername'];
+		if(isset($_GET['volname'])){
+		   $volname=$_GET['volname'];
 		}
 	       ?>
 
@@ -19,9 +19,9 @@
 
 	 <!--If all required inputs captureed, Call function to insert the new scholarship winner into the database-->
 	       <?php
-		if((isset($_GET['convoyearadd']))&&(isset($_GET['scholname']))&&(isset($_GET['winnername']))&&(isset($_GET['amount']))){
+		if((isset($_GET['convoyearadd']))&&(isset($_GET['scholname']))&&(isset($_GET['volname']))&&(isset($_GET['amount']))){
 		//echo "Inserting scholarship winner...";
-		if(!createNewScholWinner($scholname, $convoyearadd, $winnername, $amount)){
+		if(!createNewScholWinner($scholname, $convoyearadd, $volname, $amount)){
 			echo "ERROR: Could not add your scholarship winner!";
 		}
 		}

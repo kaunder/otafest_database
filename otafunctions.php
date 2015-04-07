@@ -523,9 +523,9 @@ function getVolunteersForDropdown($dest, $exyr){
 		while($vol=$stmt->fetch()){
 			$fname=$vol['firstName'];
 			$lname=$vol['lastName'];
-			$winnername=$lname.", ".$fname;
-			$temp.="<li><a href=\"$dest?winnername=$winnername&convoyearadd=$exyr\">$lname, $fname</a></li>";
-//Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed
+			$volname=$lname.", ".$fname;
+			$temp.="<li><a href=\"$dest?volname=$volname&convoyearadd=$exyr\">$lname, $fname</a></li>";
+//Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
 		}
 	}
 
@@ -574,5 +574,149 @@ function getDepts($convoyear){
 
 
 return $temp;
+}
+
+
+/*
+* Helper function to get ID number(s) associated with volunteer fname, lname
+*/
+function getVolIDFromName($volname){
+
+	 //Split $volname string on ',' to recover fname, lname
+	 $names=explode (', ' ,$volname);
+	 $lname=$names[0];
+	 $fname=$names[1];
+
+	 //Call helper SQL fxn to recover volunteer id from fname, lname
+	 $sql=SQLgetIDFromName();
+
+	 //Connect to DB
+	 $con=connectTODB();
+
+	 //On the open connection, create prepared statement
+	 $stmt = $con->prepare($sql);
+
+	  //bind variables
+	 $stmt->bindParam(':fname',$fname,PDO::PARAM_STR);
+	 $stmt->bindParam(':lname',$lname,PDO::PARAM_STR);
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$namebool=$stmt->execute();
+
+	//Declare counter
+	$i=0;
+
+	//If query was succesfull, fetch resulting volunteer_id
+	if($namebool){
+	   while($ids=$stmt->fetch()){
+	   $id[$i]=$ids['volunteer_id'];
+	   $i++; 
+	   }
+	}
+
+	//return array containing id number(s)
+	return $id;
+
+}
+
+
+/*
+*Display all info for given volunteer, with comments (for managers)
+*/
+function getVolInfoWithComments($volname){
+	 
+	//Call helper function to get vol id from names
+	$id=getVolIDFromName($volname);
+
+	
+	/*Handle the "George Foreman" case - check whether there is more than
+	* one unique ID associated with the input name
+	* If ID is not unique - present user with choice of how to proceed
+	*/
+
+	//YOU ARE HERE - this will need to be changed once you're handling
+	//the George Foreman case
+	$volid=$id[0];
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolInfoWithComments();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind values to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	//Result is returned in table format
+	$headerinfo="<h4><b>Personal Info</b></h4><table class='table table-condensed'>";
+	$datainfo="<tr><th>ID #</th><th>First Name</th><th>Last Name</th><th>Nickname</th><th>Phone Number</th><th>Date of Birth</th></tr>";
+
+	$headeremerg="<h4><b>Emergency Contact</b></h4><table class='table table-condensed'>";
+	$dataemerg="<tr><th>Name</th><th>Phone Number</th><th>Relationship</th></tr>";
+
+	$headercmnts="<h4><b>Comments</b></h4><table class='table table-condensed'>";
+	$datacmnts="";
+
+	if($vols){
+	while($vol=$stmt->fetch()){
+		//Build the formatted strings to be returned
+	
+		$id=$vol['volunteer_id'];
+		$fname=$vol['firstName'];
+		$lname=$vol['lastName'];
+
+		//If volunteer has no nickname, set to "none"
+		if(is_null($vol['nickName'])){
+			$nkname="(none)";		
+		}else{
+			$nkname=$vol['nickName'];		
+		}
+	
+		$volphone=$vol['phoneNumber'];
+		$dob=$vol['date_of_birth'];
+		
+		//If volunteer has no emergency contact, set values to "none" or "n/a"
+		if(is_null($vol['contact_name'])){
+			$emerg="(none)";
+			$ephone="n/a";
+			$rel="n/a";
+		}else{
+			$emerg=$vol['contact_name'];
+			$ephone=$vol['phone_num'];
+			$rel=$vol['relationship'];
+		}
+
+
+		//If comment is null, set value to "none
+		if(is_null($vol['vol_comment'])){
+			$cmnt="(no comments on file)";
+		}else{
+			$cmnt=$vol['vol_comment'];
+		}
+
+		$datainfo.="<tr><td>$id</td><td> $fname</td><td>$lname</td><td>$nkname</td><td>$volphone</td><td>$dob</td></tr>";
+		$dataemerg.="<tr><td>$emerg</td><td>$ephone</td><td>$rel</td></tr>";
+		$datacmnts.="<tr><td><li>$cmnt</li></td></tr>";
+		
+	}
+}
+
+	$datainfo.="</table>";
+	$dataemerg.="</table>";
+	$datacmnts.="</table>";
+
+//Concat table parts to get final result
+$result=$headerinfo.$datainfo.$headeremerg.$dataemerg.$headercmnts.$datacmnts;
+
+return $result;
 }
 

@@ -183,6 +183,7 @@ header("Location: index.php");
             		echo"<li><a href=\"depts.php\">Manage Departments</a></li>";
 		}
 	    ?>         
+	    	<li><a href="depts.php">Departments</a></li>
 	    	<li><a href="panels.php">Panels</a></li>
 	    	<li><a href="conventions.php">Conventions</a></li>
 	        <li><a href="contests.php">Contests</a></li>

@@ -6,7 +6,7 @@
 function SQLgetVolInfo(){
 
 $sql=<<<SQL
-	SELECT V.volunteer_id, V.firstName, V.lastName, V.nickName, V.phoneNumber, V.date_of_birth, E.contact_name, E.phone_num, E.relationship
+	SELECT DISTINCT V.volunteer_id, V.firstName, V.lastName, V.nickName, V.phoneNumber, V.date_of_birth, E.contact_name, E.phone_num, E.relationship
 	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id 
 	WHERE V.volunteer_id=:userid 
 
@@ -142,5 +142,31 @@ $sql=<<<SQL
 
 SQL;
 
+return $sql;
+}
+
+
+/*
+*Display all info for given volunteer, with comments (for managers)
+*/
+function SQLgetVolInfoWithComments(){
+$sql=<<<SQL
+	SELECT DISTINCT V.volunteer_id, V.firstName, V.lastName, V.nickName, V.phoneNumber, V.date_of_birth, E.contact_name, E.phone_num, E.relationship, C.vol_comment
+	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id LEFT OUTER JOIN VolunteerComments C ON V.volunteer_id=C.volunteer_id 
+	WHERE V.volunteer_id=:volid
+SQL;
+return $sql;
+}
+
+/*
+*Get volunteer_id(s) associated with a vol fname, lname
+*/
+function SQLgetIDFromName(){
+$sql=<<<SQL
+
+	SELECT volunteer_id
+	FROM Volunteer
+	WHERE firstName=:fname AND lastName=:lname
+SQL;
 return $sql;
 }
