@@ -697,16 +697,23 @@ function getVolInfoWithComments($volname){
 
 
 		//If comment is null, set value to "none
-		if(is_null($vol['vol_comment'])){
+		if(is_null($vol['comments'])){
 			$cmnt="(no comments on file)";
+			$datacmnts.="<tr><td><li>$cmnt</li></td></tr>";
 		}else{
-			$cmnt=$vol['vol_comment'];
+			$cmnt=$vol['comments'];
+			//Comment may consist of several strings, separate them
+			$comments=explode (';' ,$cmnt);
+			
+
+			//Format comments
+			for($i=0;$i<count($comments);$i++){
+				$datacmnts.="<tr><td><li>$comments[$i]</li></td></tr>";
+			}
 		}
 
 		$datainfo.="<tr><td>$id</td><td> $fname</td><td>$lname</td><td>$nkname</td><td>$volphone</td><td>$dob</td></tr>";
 		$dataemerg.="<tr><td>$emerg</td><td>$ephone</td><td>$rel</td></tr>";
-		$datacmnts.="<tr><td><li>$cmnt</li></td></tr>";
-		
 	}
 }
 
