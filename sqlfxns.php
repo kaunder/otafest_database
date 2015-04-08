@@ -132,6 +132,18 @@ return $sql;
 }
 
 /*
+*Get ONLY volunteers (no managers or execs) ordered alphabetically by last name
+*(for use in a drop-down menu)
+*/
+function SQLgetVolunteersForDropdownNoMgr(){
+$sql=<<<SQL
+SELECT V.lastName, V.firstName, V.volunteer_id FROM Volunteer V WHERE V.volunteer_id NOT IN(SELECT D.manager_id FROM Department D UNION SELECT S.supervisor_id FROM Supervises S) ORDER BY V.lastName ASC
+SQL;
+
+return $sql;
+}
+
+/*
 *Get all departments with manager info for a given convention year
 */
 function SQLgetDepts(){
@@ -144,6 +156,8 @@ SQL;
 
 return $sql;
 }
+
+
 
 
 /*
@@ -196,4 +210,14 @@ INSERT INTO Volunteer VALUES (:newid, :fname, :lname, :nname, :num, :dob,2)
 SQL;
 
 return $sql;
+}
+
+/*
+*Insert New Comment
+*/
+function SQLinsertNewComment(){
+$sql=<<<SQL
+INSERT INTO VolunteerComments values (:volid, :comment)
+SQL;
+return $sql;	 
 }

@@ -535,6 +535,44 @@ function getVolunteersForDropdown($dest, $exyr){
 return $temp;
 }
 
+/*
+*Return names of ONLY volunteers, formatted for use in a drop-down list
+*(Managers and executives not included in result)
+*/
+function getVolunteersForDropdownNoMgr($dest, $exyr){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolunteersForDropdownNoMgr();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
+			$volname=$lname.", ".$fname;
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname=$volname&volid=$volid&convoyearadd=$exyr\">$lname, $fname</a></li>";
+//Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
+}
+
 
 
 /*
@@ -789,4 +827,37 @@ function insertNewVolunteer($fname, $lname, $nname, $num, $dob){
 	 $vol=$stmt->execute();
 
 return $vol;
+}
+
+/*
+*Insert a new comment
+*/
+function insertNewComment($volid, $comment){
+
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLinsertNewComment();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 $stmt->bindParam(':comment',$comment,PDO::PARAM_STR);
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	 $cmnt=$stmt->execute();
+
+	 if(!$cmnt){
+		echo "\nPDO::errorInfo():\n";
+	  	print_r($con->errorInfo());
+	  }
+
+return $cmnt;
 }
