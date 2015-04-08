@@ -170,3 +170,18 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Insert new volunteer into the database
+*/
+function SQLinsertNewVolunteer(){
+//Note that all new volunteers are assigned an access level of 2
+//(volunteer privileges only) by default. Higher privilege levels can
+//be granted by an Executive.
+$sql=<<<SQL
+INSERT INTO Volunteer VALUES (:newid, :fname, :lname, :nickname, :phone, :dob,2)
+
+SQL;
+
+return $sql;
+}

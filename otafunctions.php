@@ -730,3 +730,46 @@ $result=$headerinfo.$datainfo.$headeremerg.$dataemerg.$headercmnts.$datacmnts;
 return $result;
 }
 
+
+
+/*
+*Insert a new Volunteer
+*/
+function insertNewVolunteer($fname, $lname){
+
+	 //Split $winnername string on ',' to recover fname, lname
+	 $names=explode (', ' ,$winnername);
+	 $wlname=$names[0];
+	 $wfname=$names[1];
+
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewScholWinner();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':scholname',$scholname,PDO::PARAM_STR);
+	 $stmt->bindParam(':convoyr',$convoyearadd,PDO::PARAM_STR);
+	 $stmt->bindParam(':wfname',$wfname,PDO::PARAM_STR);
+	 $stmt->bindParam(':wlname',$wlname,PDO::PARAM_STR);
+	 $stmt->bindParam(':amount',$amount,PDO::PARAM_INT);
+	 
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$schols=$stmt->execute();
+	//echo "$sql<br>";
+	//echo "$scholname<br>";
+	//echo "$convoyearadd<br>";
+	//echo "$wlname<br>";
+	//echo "$wfname<br>";
+	//echo "$amount<br>";
+
+return $schols;
+}

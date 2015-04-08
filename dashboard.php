@@ -135,7 +135,7 @@ $usertitle="Volunteer";
 }else if($accesslev==1){
 $usertitle="Manager";
 }else{
-$usertitle="Robert Collier";
+$usertitle="Executive";
 }
 
 echo "<a href='logout.php'>Logout</a>"; 
@@ -173,21 +173,32 @@ header("Location: index.php");
         <div class="col-sm-3 col-md-2 sidebar">
           <ul class="nav nav-sidebar">
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-	    <li><a href="myinfo.php">My Info</a></li>
-	    <li><a href="myshifts.php">My Shifts</a></li>
+	    <li><a href="myinfo.php" class="sidebarmain">My Info</a></li>
+	    <li><a href="myshifts.php" class="sidebarmain">My Shifts</a></li>
 	    <?php
 		//Perform access level check to det which tabs should be shown
 		//Volunteers have a more restricted set of operations they can perform
             	if($accesslev<2){
-			echo"<li><a href=\"volunteers.php\">Manage Volunteers</a></li>";
-            		echo"<li><a href=\"depts.php\">Manage Departments</a></li>";
+		echo"<li><a href=\"volunteers.php\" class=\"sidebarmain\">Volunteers</a></li>";	
+			echo"<li><a href=\"volunteers.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>View Volunteers</a></li>";
+			echo"<li><a href=\"manageVols.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Volunteers</a></li>";
 		}
 	    ?>         
-	    	<li><a href="depts.php">Departments</a></li>
-	    	<li><a href="panels.php">Panels</a></li>
-	    	<li><a href="conventions.php">Conventions</a></li>
-	        <li><a href="contests.php">Contests</a></li>
-            	<li><a href="scholarships.php">Scholarships</a></li>
+	    	
+		<li><a href="depts.php" class="sidebarmain">Departments</a></li>
+	    	<li><a href="depts.php"><span class="glyphicon glyphicon-chevron-right"></span> View Managers</a></li>
+
+		<?php
+			if($accesslev<2){
+			echo"<li><a href=\"#\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Departments</a></li>";
+			}	
+		?>
+
+		<li><a href="panels.php" class="sidebarmain">Panels</a></li>
+	    	<li><a href="conventions.php" class="sidebarmain">Conventions</a></li>
+	        <li><a href="contests.php" class="sidebarmain">Contests</a></li>
+            	<li><a href="scholarships.php" class="sidebarmain">Scholarships</a></li>
+	    	<li><a href="scholarships.php"><span class="glyphicon glyphicon-chevron-right"></span> Past Winners</a></li>
      	</ul>
         </div>
         
