@@ -730,21 +730,40 @@ $result=$headerinfo.$datainfo.$headeremerg.$dataemerg.$headercmnts.$datacmnts;
 return $result;
 }
 
+/*
+*Helper function to return max current volunteer ID
+*/
+function getMaxID(){
 
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetMaxID();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+
+
+	 //Execute statement
+	 $nums=$stmt->execute();
+	 
+	 //extract maximum id number currently in use
+	 if($nums){
+		$num=$stmt->fetch();
+	 	$maxID=$num['max'];
+	 }
+
+return $maxID;	 
+}
 
 /*
 *Insert a new Volunteer
 */
-function insertNewVolunteer($fname, $lname){
-
-	 //Split $winnername string on ',' to recover fname, lname
-	 $names=explode (', ' ,$winnername);
-	 $wlname=$names[0];
-	 $wfname=$names[1];
-
+function insertNewVolunteer($fname, $lname, $nname, $num, $dob){
 
 	 //call SQL fxn to perform the query, store returned string
-	 $sql = SQLcreateNewScholWinner();
+	 $sql = SQLinsertNewVolunteer();
 
 	//Conncet to database
  	 $con = connectToDB();
@@ -752,24 +771,22 @@ function insertNewVolunteer($fname, $lname){
 	 //On the open connection, create a prepared statement from $sql
 	 $stmt = $con->prepare($sql);
 	 
-	 //bind to parameter maxid the value 10, which is of type INT
+	 //Get next unused volunteer id
+	 $newid=getMaxID()+1;
+
+	 //bind to parameters
 	 //this prevents little billy tables
-	 $stmt->bindParam(':scholname',$scholname,PDO::PARAM_STR);
-	 $stmt->bindParam(':convoyr',$convoyearadd,PDO::PARAM_STR);
-	 $stmt->bindParam(':wfname',$wfname,PDO::PARAM_STR);
-	 $stmt->bindParam(':wlname',$wlname,PDO::PARAM_STR);
-	 $stmt->bindParam(':amount',$amount,PDO::PARAM_INT);
+	 $stmt->bindParam(':newid',$newid,PDO::PARAM_INT);
+	 $stmt->bindParam(':fname',$fname,PDO::PARAM_STR);
+	 $stmt->bindParam(':lname',$lname,PDO::PARAM_STR);
+	 $stmt->bindParam(':nname',$nname,PDO::PARAM_STR);
+	 $stmt->bindParam(':num',$num,PDO::PARAM_STR);
+	 $stmt->bindParam(':dob',$dob,PDO::PARAM_STR);
 	 
 
 	 //create a variable for the result of the query
 	 //execute the statment - returns a bool of whether successfull
-	$schols=$stmt->execute();
-	//echo "$sql<br>";
-	//echo "$scholname<br>";
-	//echo "$convoyearadd<br>";
-	//echo "$wlname<br>";
-	//echo "$wfname<br>";
-	//echo "$amount<br>";
+	 $vol=$stmt->execute();
 
-return $schols;
+return $vol;
 }
