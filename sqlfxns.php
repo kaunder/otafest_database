@@ -295,3 +295,15 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Display details of a department for a specific convo year(for managers)
+*/
+function SQLdisplayDeptInfo(){
+$sql=<<<SQL
+	SELECT dept_name, num_volunteers_req
+	FRom Department D
+	WHERE D.manager_id=:userid AND D.convention_name=:convoyr
+SQL;
+return $sql;	 
+}

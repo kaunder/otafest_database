@@ -1010,3 +1010,55 @@ function modifyEmergContact($volid, $emergname, $emergphone, $emergrel){
 return $emergc;
 }
 
+/*
+*Return department info for a given manager and convo year
+*(Manager's view)
+*/
+function displayDeptInfo($convoyear, $userid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLdisplayDeptInfo();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 $stmt->bindParam(':userid',$userid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$depts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Number of Volunteers Required</th></tr>";
+
+	//delcare variables so they can be user outside the while
+	$depname=null;
+	$num=null;
+
+	if($depts){
+	while($dept=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$depname=$dept['dept_name'];
+		$num=$dept['num_volunteers_req'];
+		$temp.="<tr><td> $depname</td><td>$num</td></tr>";
+		}
+	}
+	//If no results returned for the selected convention year, 
+	//display a message:
+	if(is_null($depname)&&is_null($num)){
+		$temp="(You didn't manage any departments during $convoyear)";
+	}
+	
+		$temp.="</table>";
+
+
+return $temp;
+}
+
