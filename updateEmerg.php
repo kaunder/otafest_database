@@ -68,17 +68,17 @@
 	       if(isset($_GET['volidEC'])){
 		   $volidEC = $_GET['volidEC'];
 		
-			if(isset($_GET['emergname'])){
+			if(isset($_GET['emergname']) && $_GET['emergname'] != ''){
 				$emergname=$_GET['emergname'];
 			}else{
 				$emergname=getEmergInfo(0,$volidEC);
 			}
-			if(isset($_GET['emergphone'])){
+			if(isset($_GET['emergphone']) && $_GET['emergphone'] != ''){
 				$emergphone=$_GET['emergphone'];
 			}else{
 				$emergphone=getEmergInfo(1,$volidEC);
 			}
-			if(isset($_GET['emergrel'])){
+			if(isset($_GET['emergrel']) && $_GET['emergrel'] != ''){
 				$emergrel=$_GET['emergrel'];
 			}else{
 				$emergrel=getEmergInfo(2,$volidEC);

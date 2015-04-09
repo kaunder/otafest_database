@@ -960,11 +960,11 @@ function modifyEmergContact($volid, $emergname, $emergphone, $emergrel){
 
 	 //Check whether volunteer has existing emergency contact
 	 $sql0=SQLgetEmergExists();
-	 $col0=connectToDB();
+	 $con0=connectToDB();
 	 $stmt0=$con0->prepare($sql0);
 	 $stmt0->bindParam(':volid',$volid,PDO::PARAM_INT);
-	 if($stmt0){
-		$contact=$stmt0->fetch;
+	 if($stmt0->execute()){
+		$contact=$stmt0->fetch();
 		//if volunteer ID is not in the table, record does not exist
 		if(is_null($contact['volunteer_id'])){
 			$hascontact=False;
@@ -992,9 +992,9 @@ function modifyEmergContact($volid, $emergname, $emergphone, $emergrel){
 	 //bind to parameters
 	 //this prevents little billy tables
 	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
-	 $stmt->bindParam(':emergname',$emergname,PDO::PARAM_STRING);
-	 $stmt->bindParam(':emergphone',$emergphone,PDO::PARAM_STRING);
-	 $stmt->bindParam(':emergrel',$emergrel,PDO::PARAM_STRING);
+	 $stmt->bindParam(':emergname',$emergname,PDO::PARAM_STR);
+	 $stmt->bindParam(':emergphone',$emergphone,PDO::PARAM_STR);
+	 $stmt->bindParam(':emergrel',$emergrel,PDO::PARAM_STR);
 
 
 
