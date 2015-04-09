@@ -176,23 +176,26 @@ header("Location: index.php");
 	    <li><a href="myinfo.php" class="sidebarmain">My Info</a></li>
 	    <li><a href="myshifts.php" class="sidebarmain">My Shifts</a></li>
 	    <?php
-		//Perform access level check to det which tabs should be shown
-		//Volunteers have a more restricted set of operations they can perform
+		
+		//Manager/Executive Level Pages:
             	if($accesslev<2){
+
+		//Volunteer Management
 		echo"<li><a href=\"volunteers.php\" class=\"sidebarmain\">Volunteers</a></li>";	
 			echo"<li><a href=\"volunteers.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>View Volunteers</a></li>";
 			echo"<li><a href=\"manageVols.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Volunteers</a></li>";
+			echo"<li><a href=\"blacklist.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Blacklist</a></li>";
 		}
 	    ?>         
 	    	
 		<li><a href="depts.php" class="sidebarmain">Departments</a></li>
 	    	<li><a href="depts.php"><span class="glyphicon glyphicon-chevron-right"></span> View Managers</a></li>
-
-		<?php
-			if($accesslev<2){
+		
+		
+		<?php if($accesslev<2){
+			echo"<li><a href=\"shifts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Assign Shifts</a></li>";	
 			echo"<li><a href=\"#\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Departments</a></li>";
-			}	
-		?>
+			}?>
 
 		<li><a href="panels.php" class="sidebarmain">Panels</a></li>
 	    	<li><a href="conventions.php" class="sidebarmain">Conventions</a></li>

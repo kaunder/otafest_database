@@ -234,3 +234,64 @@ SQL;
 return $sql;
 }
 
+/*
+*A series of helper functions to return emergency contact name, phone, rel
+*(Used to preserve existing values when updating existing emerg contact)
+*/
+function SQLgetEmergContactName(){
+$sql=<<<SQL
+	SELECT E.contact_name
+	FROM EmergencyContact E
+	WHERE E.volunteer_id=:volid
+SQL;
+return $sql;
+}
+
+function SQLgetEmergPhone(){
+$sql=<<<SQL
+	SELECT E.phone_num
+	FROM EmergencyContact E
+	WHERE E.volunteer_id=:volid
+SQL;
+return $sql;
+}
+
+function SQLgetEmergRel(){
+$sql=<<<SQL
+	SELECT E.relationship
+	FROM EmergencyContact E
+	WHERE E.volunteer_id=:volid
+SQL;
+return $sql;
+}
+
+function SQLgetEmergExists(){
+$sql=<<<SQL
+	SELECT *
+	FROM EmergencyContact E, Volunteer V
+	WHERE V.volunteer_id=:volid AND V.volunteer_id=E.volunteer_id
+SQL;
+return $sql;	 
+}
+
+/*
+*Update values of an existing emergency contact
+*/
+function SQLupdateEmerg(){
+$sql=<<<SQL
+	UPDATE EmergencyContact E
+	SET E.contact_name=:emergname, E.phone_num=:emergphone, E.relationship=:emergrel
+	WHERE E.volunteer_id=:volid
+SQL;
+return $sql;
+}
+
+/*
+*Insert new emergency contact
+*/
+function SQLinsertEmerg(){
+$sql=<<<SQL
+	Insert into EmergencyContact values (:emergname, :volid, ':emergphone, :emergrel)
+SQL;
+return $sql;
+}

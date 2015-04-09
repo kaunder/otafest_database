@@ -500,8 +500,10 @@ return $schols;
 
 /*
 *Return names of all volunteers, formatted for use in a drop-down list
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
 */
-function getVolunteersForDropdown($dest, $exyr){
+function getVolunteersForDropdown($dest, $exyr,$tag=""){
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetVolunteersForDropdown();
@@ -527,7 +529,7 @@ function getVolunteersForDropdown($dest, $exyr){
 			$volname=$lname.", ".$fname;
 			$prev=$volname;
 			//Display volunteer name, but store volunteer id for easy queries
-			$temp.="<li><a href=\"$dest?volname=$volname&volid=$volid&convoyearadd=$exyr\">$lname, $fname</a></li>";
+			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyearadd$tag=$exyr\">$lname, $fname</a></li>";
 //Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
 		}
 	}
@@ -676,10 +678,6 @@ function getVolInfoWithComments($volid){
 	* If ID is not unique - present user with choice of how to proceed
 	*/
 
-	//YOU ARE HERE - this will need to be changed once you're handling
-	//the George Foreman case
-	//$volid=$id[0];
-
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetVolInfoWithComments();
 
@@ -737,7 +735,7 @@ function getVolInfoWithComments($volid){
 		}
 
 
-		//If comment is null, set value to "none
+		//If comment is null, set value to "none"
 		if(is_null($vol['comments'])){
 			$cmnt="(no comments on file)";
 			$datacmnts.="<tr><td><li>$cmnt</li></td></tr>";
@@ -755,8 +753,9 @@ function getVolInfoWithComments($volid){
 
 		$datainfo.="<tr><td>$id</td><td> $fname</td><td>$lname</td><td>$nkname</td><td>$volphone</td><td>$dob</td></tr>";
 		$dataemerg.="<tr><td>$emerg</td><td>$ephone</td><td>$rel</td></tr>";
-	}
-}
+		}
+}	
+
 
 	$datainfo.="</table>";
 	$dataemerg.="</table>";
@@ -861,3 +860,153 @@ function insertNewComment($volid, $comment){
 
 return $cmnt;
 }
+
+
+/*
+*Display all blacklisted volunteers
+*/
+function getBlacklist(){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetBlacklist();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$blist=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Name</th><th>Comments</th></tr>";
+
+	if($blist){
+	while($bl=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$fname=$bl['firstName'];
+		$lname=$bl['lastName'];
+		$comment=$bl['vol_comment'];
+		$temp.="<tr><td>$fname $lname</td><td>$comment</td></tr>";
+		}
+	}
+		$temp.="</table>";
+
+
+return $temp;
+}
+
+/*
+*Helper function to return specific emergency contact info
+*Used to preserve existing emergency contact info when part of the table is being updated
+*/
+function getEmergInfo($info, $volid){
+
+	 /* $info= 0 -->return name
+	 *	 = 1 -->return phone number
+	 *       = 2 -->return relationship 
+	 */      
+
+	 //call appropriate SQL fxn to perform the query, store returned string
+	 if($info==0){
+		$sql = SQLgetEmergContactName();
+	 }else if($info==1){
+	       $sql = SQLgetEmergPhone();
+	 }else if($info==2){
+	       $sql = SQLgetEmergRel();
+	 }else{
+	 //No other input values supported - return
+	 	 return;
+	 }
+	 
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+
+
+	 //Execute statement
+	 $emerg=$stmt->execute();
+	 
+	 //extract result
+	 if($emerg){
+		$em=$stmt->fetch();
+		if($info==0){
+		    $result=$em['contact_name'];
+		}else if($info==1){
+		    $result=$em['phone_num'];
+		}else{
+		    $result=$em['relationship'];
+		}
+	 }
+
+return $result;	 
+}
+
+/*
+*Update/Modify Emergency Contact
+*/
+function modifyEmergContact($volid, $emergname, $emergphone, $emergrel){
+
+
+	 //Check whether volunteer has existing emergency contact
+	 $sql0=SQLgetEmergExists();
+	 $col0=connectToDB();
+	 $stmt0=$con0->prepare($sql0);
+	 $stmt0->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 if($stmt0){
+		$contact=$stmt0->fetch;
+		//if volunteer ID is not in the table, record does not exist
+		if(is_null($contact['volunteer_id'])){
+			$hascontact=False;
+		}else{
+			$hascontact=True;
+		}
+	 }
+	 
+	 //If volunteer has an existing emerg contact, call the Update function
+	 //Else, call the Insert function
+	 if($hascontact==False){
+		$sql=SQLinsertEmerg();
+	 }else{
+		$sql=SQLupdateEmerg();
+	 }
+
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 $stmt->bindParam(':emergname',$emergname,PDO::PARAM_STRING);
+	 $stmt->bindParam(':emergphone',$emergphone,PDO::PARAM_STRING);
+	 $stmt->bindParam(':emergrel',$emergrel,PDO::PARAM_STRING);
+
+
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	 $emergc=$stmt->execute();
+
+	 if(!$emergc){
+		echo "\nPDO::errorInfo():\n";
+	  	print_r($con->errorInfo());
+	  }
+
+return $emergc;
+}
+

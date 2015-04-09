@@ -3,13 +3,15 @@
 ?>
 
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Volunteers</h1>
+	<h1 class="page-header">Shift Management</h1>
 
 
 
 
- <!---------------Insert new volunteer---------------------------->
+ <!---------------Show available volunteers for each shift------------------>
 	
+PUT NEW CONTENT HERE
+
 	  <h3>Add New Volunteer</h3>
 
 
@@ -169,13 +171,14 @@
 
 
 
-<?php
-   include "updateEmerg.php";
-?>
 
 
 
-</div>
+
+
+  </div>
+
+
 
     <?php include "footer.php";?>
 
