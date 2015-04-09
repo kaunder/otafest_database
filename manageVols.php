@@ -10,7 +10,7 @@
 
  <!---------------Insert new volunteer---------------------------->
 	
-	  <h3> Add New Volunteer</h3>
+	  <h3>Add New Volunteer</h3>
 
 
 
@@ -108,6 +108,80 @@
 <!---------------Modify Volunteer Comments---------------------------->
 	
 <h3>Add/Modify Volunteer Comments</h3>
+
+<form action="manageVols.php" method="get">
+	   <b>Volunteer:</b> <!-- Single button -->
+	  <div class="btn-group">
+
+	    <!-- Get volname and id, if already set-->
+	       <?php
+	       if(isset($_GET['volname'])){
+		   $volname = $_GET['volname'];
+		}else{
+		   $volname="Select Volunteer:";
+		}
+		if(isset($_GET['volid'])){
+		   $volid=$_GET['volid'];
+		}
+	       ?>
+
+
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $volname;?> <span class="caret"></span></a>
+	    </button>
+	    <ul class="dropdown-menu scrollable-menu "role="menu">
+		    	<?php echo getVolunteersForDropdownNoMgr("manageVols.php", "");?>
+		    </ul>
+	   </div>
+
+
+	   <b>New Comment: </b>
+	   <input type="text" name="comment">
+
+	   <?php if(isset($_GET['volid'])){
+		echo '<input type="hidden" name="volid" value="'.$volid.'"></input>';
+	   }?>
+
+  <input type="submit" value="Add Comment"/>
+</form>
+
+<!-- Perform logic to load selected volunteer, new comment-->
+	       <?php
+	       if(isset($_GET['volid'])){
+		   $volid = $_GET['volid'];
+		}
+		if(isset($_GET['comment'])){
+		   $comment=$_GET['comment'];
+		}
+	       ?>
+
+
+	 <!--If all required inputs captureed, call function to insert new comment-->
+	       <?php
+		if((isset($_GET['volid']))&&(isset($_GET['comment']))){
+		echo "inside the isset if";
+		
+		echo "volid=".$volid;
+
+		if(!insertNewComment($volid, $comment)){
+			echo "ERROR: Could not insert comment!";
+		}else{
+			echo "Added new comment for ".$volname."!";
+		}
+		}
+	       ?>
+
+
+
+
+
+
+
+
+<!---------------View Blacklisted Volunteers---------------------------->
+	
+<h3>Blacklisted Volunteers</h3>
+
+YOU ARE HERE
 
 <form action="manageVols.php" method="get">
 	   <b>Volunteer:</b> <!-- Single button -->

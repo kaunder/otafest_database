@@ -221,16 +221,3 @@ INSERT INTO VolunteerComments values (:volid, :comment)
 SQL;
 return $sql;	 
 }
-
-/*
-*Return names of volunteers who have been blacklisted
-*/
-function SQLgetBlacklist(){
-$sql=<<<SQL
-SELECT lastName, firstName, C.vol_comment
-FROM Volunteer V, VolunteerComments C
-WHERE C.vol_comment LIKE '%Blacklisted%' AND C.volunteer_id = V.volunteer_id 
-SQL;
-return $sql;
-}
-

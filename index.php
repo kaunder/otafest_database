@@ -1,5 +1,10 @@
 <?php
-   include_once "otafunctions.php"
+   include_once "otafunctions.php";
+
+   //Retrieve session cookie if one already exists in the browser
+   session_start();
+   //Unset the session for that user
+   unset($_SESSION["username"]);  
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -30,6 +35,8 @@
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="otatheme.css">
+
+
 
 		<script>
 	function gotoregister() {
