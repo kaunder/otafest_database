@@ -195,7 +195,6 @@ header("Location: index.php");
 		
 		<?php if($accesslev<2){
 			echo"<li><a href=\"shifts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Assign Shifts</a></li>";	
-			echo"<li><a href=\"#\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Departments</a></li>";
 			}?>
 
 		<li><a href="panels.php" class="sidebarmain">Panels</a></li>

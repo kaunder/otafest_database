@@ -10,11 +10,9 @@
 
  <!---------------Show available volunteers for each shift------------------>
 	
-PUT NEW CONTENT HERE
+	  <h3>Assign Shifts</h3>
 
-	  <h3>Add New Volunteer</h3>
-
-
+YOU ARE HERE FIX THIS FORM
 
 <form action="manageVols.php" method="get">
 <div class="row">

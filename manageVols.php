@@ -129,7 +129,15 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $volname;?> <span class="caret"></span></a>
 	    </button>
 	    <ul class="dropdown-menu scrollable-menu "role="menu">
-		    	<?php echo getVolunteersForDropdownNoMgr("manageVols.php", "");?>
+		    	<?php 
+			if($accesslev==1){
+				//Managers cannot edit other managers comments
+				echo getVolunteersForDropdownNoMgr("manageVols.php", "");
+			}else if($accesslev==0){
+			      //Execs can edit all comments
+				echo getVolunteersForDropdown("manageVols.php", "");
+						}
+			?>
 		    </ul>
 	   </div>
 
