@@ -19,29 +19,35 @@
         <h1>
             <font color = "white">About This Site
         </h1>
-        <p>Volunteer Database for Otafest Calgary.</p>
+        <p>Volunteer Database for Otafest Convention in Calgary, Alberta.</p>
 
         <p>Created by:</p>
         <p>Emily Chow</p>
         <p>Delphine Prinet</p>
-        <p> Marcus Stewart - Favorite Anime: <a href = "http://www.funimation.com/shows/attack-on-titan/home">English</a> <a href = "http://shingeki.tv/movie/">Japanese</a></p> 
+        <p> Marcus Stewart</p> 
         <p>Katie Underwood</p>
         
         <p>A component of the term project for Computer Science 471, Winter 2015.</p>
         <p>Prof: Robert Collier</p>
         <p>TA: Khobaib Zaamout</p>
-        <p>What about that A+ Khobaib?</p>
+        <br><br>
+        <p>So... What about that A+ Khobaib?</p>
 
         <br><br>
         
         <footer>
+            <p>A link to the main convention website:</p>
             <h2>
             <a href="http://otafest.com">Otafest</a>
             </h2>
             <br><br>
-            <h6>images from otafest</h6>
+            <h6>all images (c) Otafest</h6>
 
-        </footer>   
+        </footer>  
+        
+        <br><br>
+        <a href="myinfo.php">Back to My Info</a>
+        
 
 </div>
 
