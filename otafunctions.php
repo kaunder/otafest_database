@@ -139,7 +139,9 @@ function getVolDeptsByYear($username, $convoyear){
 	$vols=$stmt->execute();
 
 	$temp="<ul class=vols>";
-	//$temp.="<h4>Departments Worked During $convoyear:</h4>";
+
+	$deptname;
+
 	if($vols){
 	while($dept=$stmt->fetch()){
 		//Build the formatted string to be returned
@@ -148,7 +150,14 @@ function getVolDeptsByYear($username, $convoyear){
 		}
 	}
 		$temp.="</ul>";
-		return $temp;
+
+	//If query returns zero rows, return message instead
+	if(is_null($deptname)){
+		$temp="(You didn't work in any departments during $convoyear)";
+	}	
+
+
+return $temp;
 }
 
 

@@ -1,5 +1,5 @@
 body {
-background-image: url(/otaPics/obackground.jpg); /*You will specify your image path here.*/
+background-image: url(otaPics/obackground.jpg); /*You will specify your image path here.*/
 
 -moz-background-size: cover;
 -webkit-background-size: cover;
