@@ -91,7 +91,13 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $volnameadd;?> <span class="caret"></span></a>
 	    </button>
 	    <ul class="dropdown-menu scrollable-menu "role="menu">
-		    	<?php echo getVolunteersForDropdownExtend("depts.php", $convoyearadd, "add", "deptadd=$deptadd");?>
+		    	<?php
+			  $preserve="deptadd=$deptadd";
+			  if(isset($_GET['volidadd'])){
+			    $preserve.="&volidadd=$volidadd";
+			  }
+			  //Only existing managers should exist in the dropdown
+			  echo getManagersForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
 		    </ul>
 	   </div>
 
@@ -103,12 +109,40 @@
 	   <input type="hidden" name="convoyearadd" value="<?php echo $convoyearadd; ?>">
 	   <input type="hidden" name="volnameadd" value="<?php echo $volnameadd; ?>">
 	   <input type="hidden" name="deptadd" value="<?php echo $deptadd; ?>">
-	   
+	   <input type="hidden" name="go" value="1">
+	   <?php
+	     if(isset($volidadd)){
+		echo "<input type=\"hidden\" name=\"volidadd\" value=\"$volidadd\">";
+	     }
+	   ?>
   <input type="submit" value="Assign Manager"/>
 </form>
 
 
+	<!-- Get Update Manager form variables-->
+	       <?php
+	       if(isset($_GET['convoyearadd'])){
+		   $convoyearadd = $_GET['convoyearadd'];
+		}
+		if(isset($_GET['deptadd'])){
+		   $deptnameadd=$_GET['deptadd'];
+		}
+		if(isset($_GET['volidadd'])){
+		   $volidadd=$_GET['volidadd'];
+		}
+	       ?>
 
+
+
+	 <!--If all required inputs captureed, Call function to update manager -->
+	       <?php
+		if((isset($_GET['convoyearadd']))&&(isset($_GET['deptadd']))&&(isset($_GET['volidadd']))&&$go==1){
+		echo "Updating manager...";
+		if(!updateDeptManager($convoyearadd, $deptadd, $volidadd)){
+			echo "ERROR: Could not update manager for $deptnameadd!";
+		}
+		}
+	       ?>
 
 
 <?php include "footer.php";?>

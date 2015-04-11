@@ -184,6 +184,7 @@ header("Location: index.php");
 		echo"<li><a href=\"volunteers.php\" class=\"sidebarmain\">Volunteers</a></li>";	
 			echo"<li><a href=\"volunteers.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>View Volunteers</a></li>";
 			echo"<li><a href=\"manageVols.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Volunteers</a></li>";
+			echo"<li><a href=\"supervision.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Direct Supervision</a></li>";
 			echo"<li><a href=\"blacklist.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Blacklist</a></li>";
 		}
 	    ?>         

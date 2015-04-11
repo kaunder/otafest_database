@@ -1,4 +1,4 @@
-<?php 
+<?php
 //This file contains the SQL queries required for all functions
 //in otafunctions.php
 
@@ -7,8 +7,8 @@ function SQLgetVolInfo(){
 
 $sql=<<<SQL
 	SELECT DISTINCT V.volunteer_id, V.firstName, V.lastName, V.nickName, V.phoneNumber, V.date_of_birth, E.contact_name, E.phone_num, E.relationship
-	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id 
-	WHERE V.volunteer_id=:userid 
+	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id
+	WHERE V.volunteer_id=:userid
 
 SQL;
 
@@ -20,7 +20,7 @@ return $sql;
 function SQLgetVolDeptsByYear(){
 $sql=<<<SQL
 	SELECT DISTINCT W.dept_name
-	FROM Volunteer V LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id 
+	FROM Volunteer V LEFT OUTER JOIN VolunteerWorks W ON V.volunteer_id=W.volunteer_id
 	WHERE V.volunteer_id=:userid AND W.convention_name=:convoyr
 SQL;
 
@@ -41,7 +41,7 @@ return $sql;
 //Return all convention names (years)
 function SQLgetConvoYears(){
 $sql=<<<SQL
-	SELECT convention_name FROM volunteerDatabase.Convention; 
+	SELECT convention_name FROM volunteerDatabase.Convention;
 SQL;
 
 return $sql;
@@ -148,6 +148,19 @@ return $sql;
 }
 
 /*
+*Get all managers ordered alphabetically by last name
+*(for use in a drop-down menu)
+*/
+function SQLgetManagersForDropdown(){
+$sql=<<<SQL
+ SELECT lastName, firstName, volunteer_id FROM volunteerDatabase.Volunteer ORDER BY lastName ASC
+
+SQL;
+
+return $sql;
+}
+
+/*
 *Get ONLY volunteers (no managers or execs) ordered alphabetically by last name
 *(for use in a drop-down menu)
 */
@@ -182,7 +195,7 @@ return $sql;
 function SQLgetVolInfoWithComments(){
 $sql=<<<SQL
 SELECT DISTINCT V.volunteer_id, V.firstName, V.lastName, V.nickName, V.phoneNumber, V.date_of_birth, E.contact_name, E.phone_num, E.relationship, GROUP_CONCAT(C.vol_comment separator ';') AS comments
-	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerComments C ON V.volunteer_id=C.volunteer_id 
+	FROM Volunteer V LEFT OUTER JOIN EmergencyContact E ON V.volunteer_id=E.volunteer_id LEFT OUTER JOIN VolunteerComments C ON V.volunteer_id=C.volunteer_id
 	WHERE V.volunteer_id=:volid
 SQL;
 return $sql;
@@ -210,7 +223,7 @@ $sql=<<<SQL
 SELECT MAX(volunteer_id) AS max
 FROM Volunteer
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -235,7 +248,7 @@ function SQLinsertNewComment(){
 $sql=<<<SQL
 INSERT INTO VolunteerComments values (:volid, :comment)
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -245,7 +258,7 @@ function SQLgetBlacklist(){
 $sql=<<<SQL
 SELECT lastName, firstName, C.vol_comment
 FROM Volunteer V, VolunteerComments C
-WHERE C.vol_comment LIKE '%Blacklisted%' AND C.volunteer_id = V.volunteer_id 
+WHERE C.vol_comment LIKE '%Blacklisted%' AND C.volunteer_id = V.volunteer_id
 SQL;
 return $sql;
 }
@@ -287,7 +300,7 @@ $sql=<<<SQL
 	FROM EmergencyContact E, Volunteer V
 	WHERE V.volunteer_id=:volid AND V.volunteer_id=E.volunteer_id
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -307,7 +320,7 @@ return $sql;
 */
 function SQLinsertEmerg(){
 $sql=<<<SQL
-	Insert into EmergencyContact values (:emergname, :volid, ':emergphone, :emergrel)
+	Insert into EmergencyContact values (:emergname, :volid, :emergphone, :emergrel)
 SQL;
 return $sql;
 }
@@ -321,7 +334,7 @@ $sql=<<<SQL
 	FRom Department D
 	WHERE D.manager_id=:userid AND D.convention_name=:convoyr
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -357,7 +370,7 @@ function SQLcreateNewContestJudge(){
 $sql=<<<SQL
 INSERT INTO ContestJudge values(:contestname, :convoyr, :volid)
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -367,13 +380,13 @@ function SQLcreateNewScholarshipJudge(){
 $sql=<<<SQL
 INSERT INTO ScholarshipJudge values(:scholname, :convoyr, :volid)
 SQL;
-return $sql;	 
+return $sql;
 }
 
 //Return all scholarship names
 function SQLgetScholNamesForDropdown(){
 $sql=<<<SQL
-	SELECT DISTINCT scholarship_name FROM Scholarship 
+	SELECT DISTINCT scholarship_name FROM Scholarship
 	ORDER BY scholarship_name ASC
 SQL;
 
@@ -402,18 +415,18 @@ FROM Volunteer v
 WHERE v.volunteer_id IN (
 SELECT a.volunteer_id
            FROM VolunteerAppliesFor a
-WHERE a.convention_name=:convoyear AND  
+WHERE a.convention_name=:convoyear AND
  a.dept_name=:deptname  AND a.shift_start=:shiftstart AND a.shift_end=:shiftend
             )
           AND v.volunteer_id NOT IN (
                       SELECT w.volunteer_id
                       FROM VolunteerWorks w
                       WHERE w.convention_name=:convoyear2 AND
-                      w.dept_name=:deptname2  AND w.shift_start=:shiftstart2 
+                      w.dept_name=:deptname2  AND w.shift_start=:shiftstart2
 		      AND w.shift_end=:shiftend2
 	            )
 SQL;
-return $sql;	 
+return $sql;
 }
 
 /*
@@ -423,5 +436,45 @@ function SQLinsertVolunteerWorks(){
 $sql=<<<SQL
 INSERT INTO VolunteerWorks values(:volid, :dept, :shiftstart, :shiftend, :convoyr)
 SQL;
-return $sql;	 
+return $sql;
+}
+
+
+/*
+*Update manager of a selected dept for a selected convo year
+*/
+function SQLupdateDeptManager(){
+$sql=<<<SQL
+	UPDATE Department
+	SET manager_id=:volid
+	WHERE dept_name=:dept
+	AND convention_name=:convoyr
+SQL;
+return $sql;
+}
+
+/*
+*Return all panel information for panels during a given convention year
+*/
+function SQLgetPanels(){
+$sql=<<<SQL
+SELECT c.convention_name,p.panel_name,p.category,p.presenter,p.presenter_phone_num, p.room_num,p.age_rating,p.start_time_date,p.end_time_date
+FROM Panel p, Convention c
+WHERE c.convention_name=:convoyr AND cast(p.start_time_date as date) BETWEEN  c.start_date AND c.end_date
+SQL;
+return $sql;
+}
+
+
+/*
+*Returns the id of the manager for the specified dept and convo
+*Used to check permissions for adding a panel
+*/
+function SQLgetDeptMgr(){
+$sql=<<<SQL
+	SELECT D.manager_id
+	FROM Department D
+	WHERE D.convention_name=:convoyr AND D.dept_name=:dept
+SQL;
+return $sql;
 }
