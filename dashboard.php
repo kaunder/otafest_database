@@ -193,18 +193,21 @@ header("Location: index.php");
 		<li><a href="depts.php"><span class="glyphicon glyphicon-chevron-right"></span> View Managers</a></li>
 		
 		
-		<?php if($accesslev<2){
-			echo"<li><a href=\"shifts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Assign Shifts</a></li>";
-			}
+		<?php 
 			if($accesslev==0){
 			echo"<li><a href=\"manageDepts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Departments</a></li>";			
 			}
 			
 			?>
 
+			<?php if($accesslev<2){
+			echo"<li><a href=\"shifts.php\" class=\"sidebarmain\">Shifts</a></li>";
+			echo"<li><a href=\"shifts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Assign Shifts</a></li>";			
+			}?>
+
 		<li><a href="panels.php" class="sidebarmain">Panels</a></li>
 	    	<li><a href="panels.php"><span class="glyphicon glyphicon-chevron-right"></span> View Panels</a></li>
-		<?php if($accesslev>2){echo"<li><a href=\"managepanels.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Panels</a></li>";	}?>
+		<?php if($accesslev<2){echo"<li><a href=\"managepanels.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Panels</a></li>";}?>
 
 	    	<li><a href="conventions.php" class="sidebarmain">Conventions</a></li>
 		<li><a href="conventions.php"><span class="glyphicon glyphicon-chevron-right"></span> View Conventions</a></li>
@@ -212,12 +215,12 @@ header("Location: index.php");
 
 	        <li><a href="contests.php" class="sidebarmain">Contests</a></li>
 		<li><a href="contests.php"><span class="glyphicon glyphicon-chevron-right"></span> View Contests</a></li>
-		<?php if($accesslev>2){echo"<li><a href=\"managepanels.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Contests</a></li>";	}?>
+		<?php if($accesslev<2){echo"<li><a href=\"managecontests.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Contests</a></li>";	}?>
 
 
             	<li><a href="scholarships.php" class="sidebarmain">Scholarships</a></li>
 	    	<li><a href="scholarships.php"><span class="glyphicon glyphicon-chevron-right"></span> Past Winners</a></li>
-		<?php if($accesslev==0){echo"<li><a href=\"manageschols.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Scholarships</a></li>";	}?>
+		<?php if($accesslev==0){echo"<li><a href=\"newScholWinnerDialog.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Scholarships</a></li>";	}?>
      	</ul>
         </div>
         

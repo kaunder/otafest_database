@@ -28,25 +28,7 @@
 
 <!--Only load portion of page to enter new scholarhsip winners if user has permission -->
 
-	 <?php
-		if($accesslev==0){
-		  include "newScholWinnerDialog.php";
-		}
-	 ?>
-
-
-
-
-      
-
-
-
-
-
-
-
-
-
+	 
     <?php include "footer.php";?>
 
 

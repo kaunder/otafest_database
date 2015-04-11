@@ -107,7 +107,7 @@
 
 <!---------------Modify Volunteer Comments---------------------------->
 	
-<h3>Add/Modify Volunteer Comments</h3>
+<h3>Add Volunteer Comments</h3>
 
 <form action="manageVols.php" method="get">
 	   <b>Volunteer:</b> <!-- Single button -->
