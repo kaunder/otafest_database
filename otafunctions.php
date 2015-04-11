@@ -255,11 +255,16 @@ function getConvoYearsAdd($dest, $exyr){
 
 	$temp="";
 
+	if(is_null($exyr)){
+	 $preserveyear="";
+	}else{
+	 $preserveyear="convoyear=$exyr";
+	}
 	if($years){
 		//Build the formatted string to be returned
 		while($row=$stmt->fetch()){
 			$yr=$row['convention_name'];
-			$temp.="<li><a href=\"$dest?convoyearadd=$yr&convoyear=$exyr\">$yr</a></li>";
+			$temp.="<li><a href=\"$dest?convoyearadd=$yr&$preserveyear\">$yr</a></li>";
 		}
 	}
 
@@ -1333,7 +1338,7 @@ function getDeptNamesForDropdown($dest, $convoyear,$tag=""){
 		while($dept=$stmt->fetch()){
 			$name=$dept['dept_name'];
 			//Display dept name
-			$temp.="<li><a href=\"$dest?dept$tag=$name$tag&convoyear$tag=$convoyear\">$name</a></li>";
+			$temp.="<li><a href=\"$dest?dept$tag=$name&convoyear$tag=$convoyear\">$name</a></li>";
 //Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
 		}
 	}
@@ -1470,4 +1475,44 @@ function insertVolunteerWorks($volid, $dept, $shiftstart, $shiftend, $convoyear)
 
 
 return $works;
+}
+
+/*
+*Return names of all volunteers, formatted for use in a drop-down list
+*Also saves existing form values
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
+*/
+function getVolunteersForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolunteersForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
+			$volname=$lname.", ".$fname;
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyear$tag=$exyr&$savestring\">$lname, $fname</a></li>";
+//Note: need to pass in existing year, contest name to preserve value of Convention Year, contest name drop down when pg refreshed (if three drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
 }

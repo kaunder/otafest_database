@@ -190,15 +190,10 @@ header("Location: index.php");
 	    	
 		<li><a href="depts.php" class="sidebarmain">Departments</a></li>
 	    	<?php if($accesslev<2){echo"<li><a href=\"mydept.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>My Departments</a></li>";	}?>
-		<li><a href="depts.php"><span class="glyphicon glyphicon-chevron-right"></span> View Managers</a></li>
+		<li><a href="depts.php"><span class="glyphicon glyphicon-chevron-right"></span> Dept Managers</a></li>
 		
 		
-		<?php 
-			if($accesslev==0){
-			echo"<li><a href=\"manageDepts.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Departments</a></li>";			
-			}
-			
-			?>
+		
 
 			<?php if($accesslev<2){
 			echo"<li><a href=\"shifts.php\" class=\"sidebarmain\">Shifts</a></li>";

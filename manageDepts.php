@@ -3,9 +3,9 @@
 ?>
 <!-- Department specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Department Managers</h1>
+	<h1 class="page-header">Manager Departments</h1>
 
-	  <h3>View Department Managers</h3>
+	  <h3>asdf</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -37,13 +37,13 @@
 		}
 	       ?>
 	  </div>
-</div>
 
-<!-- Only display the remaining page content if access level check passes-->
+
+<!-- Therefore only display the remaining page content if access level check passes-->
      <?php
-	if($accesslev<2){
+	if($accesslev>2){
 	//display the managers area if current user has permissions 
-	include "mgrdepts.php";
+	include mgrdepts.php;
 	}
      ?>      
 
