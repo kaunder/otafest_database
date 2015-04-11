@@ -88,14 +88,30 @@ return $sql;
 /*
 *Return lal contests run in a given convention year
 */
-function SQLgetContests(){
+function SQLgetContestsOld(){
 $sql=<<<SQL
 	SELECT * FROM Contest
 	WHERE convention_name=:convoyr;
 SQL;
 
+
 return $sql;
 }
+
+/*
+*
+*/
+function SQLgetContests(){
+$sql=<<<SQL
+SELECT C.contest_name, C.contest_type, GROUP_CONCAT(CONCAT(V.firstName," ",V.lastName) separator ';') AS judges
+FROM Contest C JOIN ContestJudge J ON C.contest_name=J.contest_name AND C.convention_name=J.convention_name JOIN Volunteer V ON J.judge_id=V.volunteer_id
+Where C.convention_name=:convoyr
+GROUP BY C.contest_name, C.contest_type
+SQL;
+return $sql;
+}
+
+
 
 /*
 *Insert a new Contest into the database
@@ -330,3 +346,25 @@ INSERT INTO ContestJudge values(:contestname, :convoyr, :volid)
 SQL;
 return $sql;	 
 }
+
+/*
+*Insert new scholarship judge
+*/
+function SQLcreateNewScholarshipJudge(){
+$sql=<<<SQL
+INSERT INTO ScholarshipJudge values(:scholname, :convoyr, :volid)
+SQL;
+return $sql;	 
+}
+
+//Return all scholarship names
+function SQLgetScholNamesForDropdown(){
+$sql=<<<SQL
+	SELECT DISTINCT scholarship_name FROM Scholarship 
+	ORDER BY scholarship_name ASC
+SQL;
+
+return $sql;
+}
+
+

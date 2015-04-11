@@ -83,4 +83,7 @@
 </form>
 
 
-  </div>
+</div>  
+
+<?php include "addscholjudge.php";?>
+

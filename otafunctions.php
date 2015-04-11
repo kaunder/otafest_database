@@ -399,7 +399,7 @@ return $temp;
 /*
 *Return all Contests run in a given convention year
 */
-function getContests($convoyear){
+function getContests($convoyear, $accesslev){
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetContests();
@@ -420,15 +420,35 @@ function getContests($convoyear){
 
 	//Result is returned in a table format
 	$temp="<table class='table table-condensed'>";
-	$temp.="<tr><th>Contest Name</th><th>Contest Type</th></tr>";
+	
+	//Volunteers do not get to see judge names
+	if($accesslev<2){
+		$temp.="<tr><th>Contest Name</th><th>Contest Type</th><th>Contest Judge(s)</th></tr>";
+	}else{
+		$temp.="<tr><th>Contest Name</th><th>Contest Type</th></tr>";	
+	}
 
 	if($contests){
 	while($contest=$stmt->fetch()){
 		//Build the formatted string to be returned
 		$name=$contest['contest_name'];
 		$type=$contest['contest_type'];
+
+		//Managers and execs also get to see judges
+		if($accesslev<2){
+			$judges=$contest['judges'];
+			//May exist multiple judges, explode them
+			$judgearray=explode(';',$judges);
+			//Format result
+			$temp.="<tr><td> $name</td><td>$type</td><td>$judgearray[0]";
+			for($i=1;$i<count($judgearray);$i++){
+				$temp.="<br>$judgearray[$i]";
+			}
+			$temp.="</td></tr>";
+		}else{
 		$temp.="<tr><td> $name</td><td>$type</td></tr>";
 		}
+	     }
 	}
 		$temp.="</table>";
 return $temp;
@@ -1153,6 +1173,48 @@ return $temp;
 
 
 /*
+*Return names of all volunteers, formatted for use in a drop-down list
+*Also saves existing form values
+*Ok, this is getting really embarasing now. But desparate times call for desparate measures.
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
+*/
+function getVolunteersForDropdown4($dest, $exyr, $exschol,$tag=""){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolunteersForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
+			$volname=$lname.", ".$fname;
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyear=$exyr&scholnameadd=$exschol\">$lname, $fname</a></li>";
+//Note: need to pass in existing year, contest name to preserve value of Convention Year, contest name drop down when pg refreshed (if three drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
+}
+
+
+/*
 *Insert a new Contest Judge into the database
 */
 function createNewContestJudge($convoyr, $contestname, $volid){
@@ -1177,4 +1239,64 @@ function createNewContestJudge($convoyr, $contestname, $volid){
 	$contests=$stmt->execute();
 
 return $contests;
+}
+
+/*
+*Insert a new Scholarship Judge into the database
+*/
+function createNewScholarshipJudge($convoyr, $scholname, $volid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewScholarshipJudge();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyr,PDO::PARAM_STR);
+	 $stmt->bindParam(':scholname',$scholname,PDO::PARAM_STR);
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$judges=$stmt->execute();
+
+
+return $judges;
+}
+
+
+/*
+*Return all existing scholarships (used for drop-down menus)
+*/
+function getScholNamesForDropdown($dest, $exyr){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetScholNamesForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$schols=$stmt->execute();
+
+	$temp="";
+
+	if($schols){
+		//Build the formatted string to be returned
+		while($row=$stmt->fetch()){
+			$name=$row['scholarship_name'];
+			$temp.="<li><a href=\"$dest?convoyear=$exyr&&scholnameadd=$name\">$name</a></li>";
+		}
+	}
+
+return $temp;
 }

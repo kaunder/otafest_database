@@ -31,7 +31,19 @@ body{
   color:red;
 }
 
+.nav>li>a {
+    padding:5px 15px;
+}
+
 .sidebarmain {
     font-weight: bold;
     font-size: 125%;
 }
+
+.nav>ul{
+    margin-bottom:25px;
+}
+
+
+
+

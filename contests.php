@@ -33,7 +33,7 @@
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){
-		echo getContests($convoyear);
+		echo getContests($convoyear, $accesslev);
 		}
 	       ?>
 	  </div>
