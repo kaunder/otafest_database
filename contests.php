@@ -2,10 +2,10 @@
    include "dashboard.php";
 ?>
 <!-- Contests specific stuff starts here-->
-	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Contests</h1>
+<div class="col-sm-9 col-md-10 main">
+<h1 class="page-header">Contests</h1>
 
-	  <h3>View Contests</h3>
+<h3>View Contests</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -40,4 +40,3 @@
 
 
 
-	

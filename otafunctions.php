@@ -6,7 +6,6 @@
 //Turn on error reporting
 error_reporting(E_ALL);
 
-
 //Include SQL functions file
 include_once "sqlfxns.php";
 
@@ -1071,3 +1070,111 @@ function displayDeptInfo($convoyear, $userid){
 return $temp;
 }
 
+/*
+*Return names of all contests in a given convention year, formatted for use in a dropdown menu
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
+*/
+function getContestNamesForDropdown($dest, $convoyear,$tag=""){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetContestNamesForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+
+	 //Bind variables
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$contests=$stmt->execute();
+
+	$temp="";
+
+	if($contests){
+		//Build the formatted string to be returned
+		while($contest=$stmt->fetch()){
+			$name=$contest['contest_name'];
+			//Display contest name
+			$temp.="<li><a href=\"$dest?contestnameadd$tag=$name$tag&convoyearadd$tag=$convoyear\">$name</a></li>";
+//Note: need to pass in existing year to preserve value of Convention Year drop down when pg refreshed (if two drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
+}
+
+
+/*
+*Return names of all volunteers, formatted for use in a drop-down list
+*Also saves existing form values
+*I know this hard coding is terrible and am duly ashamed. But we're pressed for time, don't judge.
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
+*/
+function getVolunteersForDropdown3($dest, $exyr, $excontest,$tag=""){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolunteersForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
+			$volname=$lname.", ".$fname;
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyearadd$tag=$exyr&contestnameadd$tag=$excontest$tag\">$lname, $fname</a></li>";
+//Note: need to pass in existing year, contest name to preserve value of Convention Year, contest name drop down when pg refreshed (if three drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
+}
+
+
+/*
+*Insert a new Contest Judge into the database
+*/
+function createNewContestJudge($convoyr, $contestname, $volid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewContestJudge();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyr,PDO::PARAM_STR);
+	 $stmt->bindParam(':contestname',$contestname,PDO::PARAM_STR);
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$contests=$stmt->execute();
+
+return $contests;
+}

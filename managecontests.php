@@ -16,18 +16,18 @@
 
 	    <!-- Get convention year, if it's already been set-->
 	       <?php
-	       if(isset($_GET['convoyearadd'])){
-		   $convoyearadd = $_GET['convoyearadd'];
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
 		}else{
-		   $convoyearadd="Select Convention:";
+		   $convoyear="Select Convention:";
 		}
 	       ?>
 
 
-	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyearadd;?> <span class="caret"></span></a>
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYearsAdd("managecontests.php", $convoyearadd);?>
+		    	<?php echo getConvoYears("managecontests.php");?>
 		    </ul>
 	   </div>
 
@@ -38,15 +38,15 @@
 	   <input type="text" name="contesttype"></input>
 	   <br/>
 
-	   <input type="hidden" name="convoyearadd" value="<?php echo $convoyearadd; ?>">
+	   <input type="hidden" name="convoyear" value="<?php echo $convoyear; ?>">
 	   
   <input type="submit" value="Create!"/>
 </form>
 
 	<!-- Get New Contest form variables-->
 	       <?php
-	       if(isset($_GET['convoyearadd'])){
-		   $convoyearadd = $_GET['convoyearadd'];
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
 		}
 		if(isset($_GET['contestname'])){
 		   $contestname=$_GET['contestname'];
@@ -58,9 +58,9 @@
 
 	 <!--Call function to insert the new Contest into the database, then reload page-->
 	       <?php
-		if((isset($_GET['convoyearadd']))&&(isset($_GET['contestname']))&&(isset($_GET['contesttype']))){
-		echo "Inserting contest...$convoyearadd, $contestname, $contesttype";
-		if(!createNewContest($contestname, $contesttype, $convoyearadd)){
+		if((isset($_GET['convoyear']))&&(isset($_GET['contestname']))&&(isset($_GET['contesttype']))){
+		echo "Inserting contest...$convoyear, $contestname, $contesttype";
+		if(!createNewContest($contestname, $contesttype, $convoyear)){
 		echo "ERROR: Could not add your contest!";
 		}
 		}
@@ -70,4 +70,6 @@
 
         </div>
 
-    <?php include "footer.php";?>
+	
+
+    <?php include "addjudge.php";?>

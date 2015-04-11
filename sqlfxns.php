@@ -307,3 +307,26 @@ $sql=<<<SQL
 SQL;
 return $sql;	 
 }
+
+/*
+*Return all contests for a given convo year. For use in dropdown menus
+*/
+function SQLgetContestNamesForDropdown(){
+$sql=<<<SQL
+	SELECT C.contest_name
+	FROM Contest C
+	WHERE C.convention_name=:convoyr
+	ORDER BY C.contest_name ASC
+SQL;
+return $sql;
+}
+
+/*
+*Insert new contest judge
+*/
+function SQLcreateNewContestJudge(){
+$sql=<<<SQL
+INSERT INTO ContestJudge values(:contestname, :convoyr, :volid)
+SQL;
+return $sql;	 
+}
