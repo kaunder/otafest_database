@@ -10,172 +10,157 @@
 
  <!---------------Show available volunteers for each shift------------------>
 	
-	  <h3>Assign Shifts</h3>
+<h3>View Available Volunteers</h3>
 
-YOU ARE HERE FIX THIS FORM
+<form action="shifts.php" method="get">
 
-<form action="manageVols.php" method="get">
-<div class="row">
-         <div class="form-group required">
-     	 	  <label class="col-md-2 control-label" for="firstName">First Name</label>
-    		    <div class="col-md-4">
-    	  	    	 <input type="text" class="form-control required" name="firstName" placeholder="e.g. Donald" required>
-		    </div>
-		    <div class="col-md-6"> </div>
-	</div>
-</div>		    
-
-<div class="row">
-	<div class="form-group required">
-    	     <label class="col-md-2 control-label" for="lastName">Last Name</label>
-    	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control required" name="lastName" placeholder="e.g. Chamberlin" required>
-       	     </div>
-		  <div class="col-md-6"></div>
-	</div>
-</div>
-
-
-<div class="row">
-	<div class="form-group">
-    	     <label class="col-md-2 control-label" for="nickName">Nickname</label>
-    	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control" name="nickName" placeholder="e.g. Mr. SQL">
-       	    </div>
-       </div>
-</div>
-
-<div class="row">
-	<div class="form-group">
-    	     <label class="col-md-2 control-label" for="phoneNumber">Phone Number</label>
-    	     <div class="col-md-4">
-    	     	  <input type="tel" class="form-control" name="phoneNumber" placeholder="e.g. 408-997-3188">
-       	    </div>
-       </div>
-</div>
-
-
-<div class="row">
-	<div class="form-group">
-    	     <label class="col-md-2 control-label" for="dob">Date Of Birth</label>
-    	     <div class="col-md-4">
-    	     	  <input type="date" class="form-control" name="dob" placeholder="">
-       	    </div>
-       </div>
-</div>
-
-  <input type="submit" value="Create!"/>
-</form>
-
-
-<!-- Get new Volunteer form variables-->
-	       <?php
-	       if(isset($_GET['firstName'])){
-		   $firstName = $_GET['firstName'];
-		}
-		if(isset($_GET['lastName'])){
-		   $lastName=$_GET['lastName'];
-		}
-		if(isset($_GET['nickName'])){
-		   $nickName=$_GET['nickName'];
-		}
-		if(isset($_GET['phoneNumber'])){
-		   $phoneNumber=$_GET['phoneNumber'];
-		}
-		if(isset($_GET['dob'])){
-		   $dob=$_GET['dob'];
-		}
-	       ?>
-
-
-
-	 <!--If all required inputs captureed, Call function to insert the new volunteer into the database-->
-	       <?php
-	       //Only require that mandatory fields are set before proceeding
-		if((isset($_GET['firstName']))&&(isset($_GET['lastName']))){
-		echo "Inserting new volunteer...";
-		echo $firstName;
-		echo $nickName;
-		echo $lastName;
-		if(!insertNewVolunteer($firstName, $lastName, $nickName, $phoneNumber, $dob)){
-			echo "ERROR: Could not add new volunteer!";
-		}
-		}
-
-	       ?>
-
-
-<!---------------Modify Volunteer Comments---------------------------->
-	
-<h3>Add/Modify Volunteer Comments</h3>
-
-<form action="manageVols.php" method="get">
-	   <b>Volunteer:</b> <!-- Single button -->
+	  <b>Convention Year:</b> <!-- Single button -->
 	  <div class="btn-group">
+<!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
 
-	    <!-- Get volname and id, if already set-->
+	    <!-- Get convention year, if it's already been set-->
 	       <?php
-	       if(isset($_GET['volname'])){
-		   $volname = $_GET['volname'];
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
 		}else{
-		   $volname="Select Volunteer:";
-		}
-		if(isset($_GET['volid'])){
-		   $volid=$_GET['volid'];
+		   $convoyear="Select Convention:";
 		}
 	       ?>
 
-
-	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $volname;?> <span class="caret"></span></a>
-	    </button>
-	    <ul class="dropdown-menu scrollable-menu "role="menu">
-		    	<?php echo getVolunteersForDropdownNoMgr("manageVols.php", "");?>
+	       <!--Convention Year Dropdown -->
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
+		  </button>
+		    <ul class="dropdown-menu" role="menu">
+		    	<?php echo getConvoYears("shifts.php");?>
 		    </ul>
 	   </div>
 
 
-	   <b>New Comment: </b>
-	   <input type="text" name="comment">
 
-	   <?php if(isset($_GET['volid'])){
-		echo '<input type="hidden" name="volid" value="'.$volid.'"></input>';
-	   }?>
+	    <!-- Get dept name, if it's already been set-->
+	       <?php
+	       if(isset($_GET['dept'])){
+		   $dept = $_GET['dept'];
+		}else{
+		   $dept="Select Department:";
+		}
+	       ?>
 
-  <input type="submit" value="Add Comment"/>
+	       <!-- Initialize fake bool to id whether all fields for add judge are filled in-->
+	       <?php
+	       if(isset($_GET['go'])){
+		$go=$_GET['go'];
+	       }else{
+		$go=0;
+	       }
+	       ?>
+
+
+	       <!--Department Name Dropdown -->
+	  <div class="btn-group">
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $dept;?> <span class="caret"></span></a>
+		  </button>
+		    <ul class="dropdown-menu" role="menu">
+		    	<?php echo getDeptNamesForDropdown("shifts.php", $convoyear);?>
+		    </ul>
+	   </div>
+
+
+
+<b>Shift:</b> <!-- Single button -->
+	  <div class="btn-group">
+<!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
+
+	    <!-- Get shifts, if they have already been set-->
+	       <?php
+	       if(isset($_GET['shiftname'])){
+		   $shiftname = $_GET['shiftname'];
+		}else{
+		   $shiftname="Select Shift:";
+		}	
+		if(isset($_GET['shiftstart'])){
+		   $shiftstart=$_GET['shiftstart'];
+		}
+		if(isset($_GET['shiftend'])){
+		   $shiftend=$_GET['shiftend'];
+		}
+	       ?>
+
+	       <!--Shifts Dropdown -->
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $shiftname;?> <span class="caret"></span></a>
+		  </button>
+		    <ul class="dropdown-menu" role="menu">
+		    	<?php echo getShiftsForDropdown("shifts.php", $convoyear, $dept);?>
+		    </ul>
+	   </div>
+
+
+
+
+
+
+	   
+	   <input type="hidden" name="convoyear" value="<?php echo $convoyear; ?>">
+	   <input type="hidden" name="dept" value="<?php echo $dept; ?>">
+	   <input type="hidden" name="shiftname" value="<?php echo $shiftname; ?>">
+	   <input type="hidden" name="shiftstart" value="<?php echo $shiftstart; ?>">
+	   <input type="hidden" name="shiftend" value="<?php echo $shiftend; ?>">
+	   <input type="hidden" name="go" value="1">
+	   
+  <input type="submit" value="View Available Volunteers"/>
+
 </form>
 
-<!-- Perform logic to load selected volunteer, new comment-->
+	<!-- Get Availability form variables-->
 	       <?php
-	       if(isset($_GET['volid'])){
-		   $volid = $_GET['volid'];
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
 		}
-		if(isset($_GET['comment'])){
-		   $comment=$_GET['comment'];
+		if(isset($_GET['dept'])){
+		   $dept=$_GET['dept'];
+		}
+		if(isset($_GET['shiftstart'])){
+		   $shiftstart=$_GET['shiftstart'];
+		}
+		if(isset($_GET['shiftend'])){
+		   $shiftend=$_GET['shiftend'];
+		}
+		if(isset($_GET['shiftname'])){
+		   $shiftname=$_GET['shiftname'];
+		}
+		if(isset($_GET['volid'])){
+		  $volid=$_GET['volid'];
 		}
 	       ?>
 
 
-	 <!--If all required inputs captureed, call function to insert new comment-->
+	       <!--If volid is set, insert the selected volunteer into the Works table-->
 	       <?php
-		if((isset($_GET['volid']))&&(isset($_GET['comment']))){
-			if(!insertNewComment($volid, $comment)){
-			echo "ERROR: Could not insert comment!";
-		}else{
-			echo "Added new comment for ".$volname."!";
-		}
+		if(isset($_GET['volid'])&&(isset($_GET['convoyear']))&&(isset($_GET['dept']))&&(isset($_GET['shiftstart']))&&(isset($_GET['shiftend']))&&($go==1)){
+			//Insert selected volunteer into the Works table for the selected dept, shift and convo
+			if(!insertVolunteerWorks($volid, $dept, $shiftstart, $shiftend, $convoyear)){
+				echo "Could not insert the selected volunteer!";
+			}else{
+				echo "Volunteer with ID $volid has been assigned to $shiftname in $dept";
+			}
 		}
 	       ?>
 
 
-
-
-
-
-
-
-
+	 <!--Call function to display available volunteers-->
+	 <!--i.e. volunteers who have applied for that shift but are not yet working it-->
+	 <div>
+	       <?php
+		if((isset($_GET['convoyear']))&&(isset($_GET['dept']))&&(isset($_GET['shiftstart']))&&(isset($_GET['shiftend']))&&($go==1)){
+		//echo "Inserting judge...$convoyearadd, $contestname, $volname";
+		echo displayAvailableVolunteers("shifts.php", $convoyear, $dept, $shiftstart, $shiftend, $shiftname);
+		
+		
+		}
+	       ?>
+   </div>
   </div>
-
+</div>
 
 
     <?php include "footer.php";?>

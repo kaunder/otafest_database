@@ -338,6 +338,19 @@ return $sql;
 }
 
 /*
+*Return all departments for a given convo year. For use in dropdown menus
+*/
+function SQLgetDeptNamesForDropdown(){
+$sql=<<<SQL
+	SELECT D.dept_name
+	FROM Department D
+	WHERE D.convention_name=:convoyr
+	ORDER BY D.dept_name ASC
+SQL;
+return $sql;
+}
+
+/*
 *Insert new contest judge
 */
 function SQLcreateNewContestJudge(){
@@ -367,4 +380,48 @@ SQL;
 return $sql;
 }
 
+//Return all shifts for given convo year
+function SQLgetShiftsForDropdown(){
+$sql=<<<SQL
+	SELECT DISTINCT V.shift_start, V.shift_end
+	FROM VolunteerAppliesFor V
+	WHERE V.convention_name=:convoyr
+	ORDER BY V.shift_start ASC
+SQL;
 
+return $sql;
+}
+
+/*
+*Display all volunteers available for a given shift
+*/
+function SQLdisplayAvailableVolunteers(){
+$sql=<<<SQL
+SELECT v.firstName, v.lastName, v.volunteer_id
+FROM Volunteer v
+WHERE v.volunteer_id IN (
+SELECT a.volunteer_id
+           FROM VolunteerAppliesFor a
+WHERE a.convention_name=:convoyear AND  
+ a.dept_name=:deptname  AND a.shift_start=:shiftstart AND a.shift_end=:shiftend
+            )
+          AND v.volunteer_id NOT IN (
+                      SELECT w.volunteer_id
+                      FROM VolunteerWorks w
+                      WHERE w.convention_name=:convoyear2 AND
+                      w.dept_name=:deptname2  AND w.shift_start=:shiftstart2 
+		      AND w.shift_end=:shiftend2
+	            )
+SQL;
+return $sql;	 
+}
+
+/*
+*Insert new entry in the VolunteerWorks table
+*/
+function SQLinsertVolunteerWorks(){
+$sql=<<<SQL
+INSERT INTO VolunteerWorks values(:volid, :dept, :shiftstart, :shiftend, :convoyr)
+SQL;
+return $sql;	 
+}
