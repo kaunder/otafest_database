@@ -28,7 +28,7 @@
 	   </div>
 
 
-	   <!--Display all contest winners-->
+	   <!--Display all panels-->
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){

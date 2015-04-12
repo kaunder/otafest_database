@@ -520,3 +520,13 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Display convention details
+*/
+function SQLgetConvention(){
+$sql=<<<SQL
+	SELECT * FROM Convention WHERE convention_name=:convoyr
+SQL;
+return $sql;
+}

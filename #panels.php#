@@ -1,11 +1,10 @@
 <?php
    include "dashboard.php";
 ?>
-<!-- Convention specific stuff starts here-->
+<!-- Panel specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Conventions</h1>
-
-	<h3>View Convention Details</h3>
+	<h1 class="page-header">Panels</h1>
+	<h3>View Panels</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -24,18 +23,32 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYears("conventions.php");?>
+		    	<?php echo getConvoYears("panels.php");?>
 		    </ul>
 	   </div>
 
 
-	   <!--Display selected convention details-->
+	   <!--Display all panels-->
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){
-			echo getConvention($convoyear, $accesslev);
+			echo getPanels($convoyear, $accesslev);
 		}
 	       ?>
 	  </div>
+
+
+
+
+
+
+    <?php include "footer.php";?>
+
+
+
+
+
+
+
 
 

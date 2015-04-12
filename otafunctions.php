@@ -1795,3 +1795,60 @@ return $vols;
 
 
 }
+
+
+
+/*
+*Return infor for given convention
+*(pass in $accesslev to allow future finer-graned access control)
+*/
+function getConvention($convoyear, $accesslev){
+	 
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetConvention();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+
+	
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$convos=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	
+	$temp.="<tr><th>Convention Name</th><th>Venue</th><th>Start Date</th><th>End Date</th></tr>";	
+	
+	//Declare $name in this scope so can be used later
+	$name=null;
+
+	if($convos){
+	while($convo=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$name=$convo['convention_name'];
+		$venue=$convo['venue_name'];
+		$start=$convo['start_date'];
+		$end=$convo['end_date'];
+
+		$temp.="<tr><td> $name</td><td>$venue</td><td>$start</td><td>$end</td></tr>";
+
+	     }
+	}
+		$temp.="</table>";
+
+		//If no convos were returned, return a message instead
+		if(is_null($name)){
+			$temp="(No details on file for $convoyear)";
+		}
+
+return $temp;
+
+}
