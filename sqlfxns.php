@@ -542,3 +542,23 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Return list of all venues
+*/
+function SQLgetVenues(){
+$sql=<<<SQL
+SELECT venue_name FROM Venue
+SQL;
+return $sql;
+}
+
+/*
+*Insert a new convention
+*/
+function SQLcreateNewConvo(){
+$sql=<<<SQL
+	INSERT INTO Convention VALUES(:convoname, :venuename, :startdate, :enddate)
+SQL;
+return $sql;
+}

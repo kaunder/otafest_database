@@ -1910,3 +1910,64 @@ function getVenue($convoyear, $accesslev){
 return $result;
 
 }
+
+
+/*
+*Return all venues (used for drop-down menus with list of venues)
+*/
+function getVenues($dest){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVenues();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$venues=$stmt->execute();
+
+	$temp="";
+
+	if($venues){
+		//Build the formatted string to be returned
+		while($row=$stmt->fetch()){
+			$name=$row['venue_name'];
+			$temp.="<li><a href=\"$dest?venuename=$name\">$name</a></li>";
+		}
+	}
+
+return $temp;
+}
+
+
+/*
+*Insert a new Covention in the database
+*/
+function createNewConvo($convoname, $venuename, $startdate, $enddate){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewConvo();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoname',$convoname,PDO::PARAM_STR);
+	 $stmt->bindParam(':venuename',$venuename,PDO::PARAM_STR);
+	 $stmt->bindParam(':startdate',$startdate,PDO::PARAM_STR);
+	 $stmt->bindParam(':enddate',$enddate,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$newconv=$stmt->execute();
+
+return $newconv;
+}
