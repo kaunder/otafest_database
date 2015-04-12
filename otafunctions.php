@@ -1799,7 +1799,7 @@ return $vols;
 
 
 /*
-*Return infor for given convention
+*Return info for given convention
 *(pass in $accesslev to allow future finer-graned access control)
 */
 function getConvention($convoyear, $accesslev){
@@ -1850,5 +1850,63 @@ function getConvention($convoyear, $accesslev){
 		}
 
 return $temp;
+
+}
+
+
+/*
+*Return Venue info for given convention
+*(pass in $accesslev to allow future finer-graned access control)
+*/
+function getVenue($convoyear, $accesslev){
+	 
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVenue();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+
+	
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$venues=$stmt->execute();
+
+	//Result is returned in a table format
+	$address="<table class='table table-condensed'>";
+	$contact="<table class='table table-condensed'>";
+
+	$address.="<tr><th>Venue Address</th><th>Postal Code</th></tr>";	
+	$contact.="<tr><th>Venue Contact Person</th><th>Venue Contact Phone</th><th>Coordinating Volunteer</th></tr>";	
+	
+	if($venues){
+	while($venue=$stmt->fetch()){
+
+		//Build the formatted string to be returned
+		$addr=$venue['streetAddress'];
+		$post=$venue['postalCode'];
+		$venuecontact=$venue['contact_person_name'];
+		$contactphone=$venue['contact_person_number'];
+		$volfname=$venue['firstName'];
+		$vollname=$venue['lastName'];
+
+		$address.="<tr><td> $addr</td><td>$post</td></tr>";
+		$contact.="<tr><td> $venuecontact</td><td>$contactphone</td><td>$volfname $vollname</td></tr>";
+
+	     }
+	}
+		$address.="</table>";
+		$contact.="</table>";
+
+		$result=$address."<br>".$contact;
+
+
+return $result;
 
 }

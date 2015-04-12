@@ -207,7 +207,7 @@ header("Location: index.php");
 
 	    	<li><a href="conventions.php" class="sidebarmain">Conventions</a></li>
 		<li><a href="conventions.php"><span class="glyphicon glyphicon-chevron-right"></span> View Conventions</a></li>
-		<?php if($accesslev<2){echo"<li><a href=\"venues.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>View Venues</a></li>";}?>		
+
 		<?php if($accesslev==0){echo"<li><a href=\"manageconvos.php\"><span class=\"glyphicon glyphicon-chevron-right\"></span>Manage Conventions</a></li>";	}?>
 
 	        <li><a href="contests.php" class="sidebarmain">Contests</a></li>

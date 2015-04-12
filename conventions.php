@@ -39,3 +39,10 @@
 	  </div>
 
 
+<!-- Only Managers and Execs can view Venue information -->
+<?php if($accesslev<2){include "venues.php";}?>
+
+</div>
+
+
+<?php include "footer.php";?>
