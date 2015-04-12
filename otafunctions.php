@@ -1096,6 +1096,70 @@ return $temp;
 }
 
 /*
+*Return all volunteers who work in a selected dept for a selected convo
+*(Manager's view)
+*/
+function displayDeptVols($convoyear, $userid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLdisplayDeptVols();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 $stmt->bindParam(':userid',$userid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$depts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Volunteer</th></tr>";
+
+	//delcare variables so they can be user outside the while
+	$depname=null;
+
+	if($depts){
+	while($dept=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$depname=$dept['dept_name'];
+		$volnames=$dept['vnames'];
+		
+		//May exist multiple vols/dept, explode them
+		$volarray=explode(';',$volnames);
+
+		//Format result
+		$temp.="<tr><td>$depname</td><td>$volarray[0]";
+		for($i=1;$i<count($volarray);$i++){
+			$temp.="<br>$volarray[$i]";
+		}
+		$temp.="</td></tr>";
+
+		}
+	}
+
+	$temp.="</table>";
+
+	//If no results returned for the selected convention year, 
+	//display a message:
+	if(is_null($depname)){
+		$temp="(You didn't manage any departments during $convoyear)";
+	}
+	
+		
+
+
+return $temp;
+}
+
+/*
 *Return names of all contests in a given convention year, formatted for use in a dropdown menu
 *$tag is appended to the end of returned variables and defaults to the empty string
 *(this allows multiple uses of this function on the same page without overwriting variables)
@@ -2001,4 +2065,57 @@ function createNewVenue($venuename, $addr, $postal, $contact, $phone, $volid){
 	$newvenue=$stmt->execute();
 
 return $newvenue;
+}
+
+
+/*
+*Return supervisee info for a given manager and convo year
+*/
+function displaySupervisees($convoyear, $userid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLdisplaySupervisees();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameters
+	 //this prevents little billy tables
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 $stmt->bindParam(':userid',$userid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Volunteer ID</th><th>Volunteer Name</th><th>Phone Number</th></tr>";
+
+	//delcare variables so they can be user outside the while
+	$id=null;
+
+	if($vols){
+	while($vol=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$id=$vol['volunteer_id'];
+		$fname=$vol['firstName'];
+		$lname=$vol['lastName'];
+		$phone=$vol['phoneNumber'];
+		$temp.="<tr><td>$id</td><td>$fname $lname</td><td>$phone</td></tr>";
+		}
+	}
+	//If no results returned for the selected convention year, 
+	//display a message:
+	if(is_null($id)){
+		$temp="(No one directly reported to you during $convoyear)";
+	}
+	
+		$temp.="</table>";
+
+
+return $temp;
 }

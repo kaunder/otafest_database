@@ -3,9 +3,9 @@
 ?>
 <!-- Department specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">My Departments</h1>
+	<h1 class="page-header">Supervision</h1>
 
-	  <h3>View Departments You Manage</h3>
+	  <h3>Your Direct Supervisees</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -24,7 +24,7 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYears("mydept.php");?>
+		    	<?php echo getConvoYears("supervision.php");?>
 		    </ul>
 	   </div>
 
@@ -33,14 +33,10 @@
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){
-			echo displayDeptInfo($convoyear, $username);
-			echo "<h3>Volunteers Working In Your Departments:</h3>";
-			echo displayDeptVols($convoyear, $username);	
-	}	       
+			echo displaySupervisees($convoyear, $username);
+		}	       
 		?>
 	  </div>
 
-
-<!--Display table of all volunteers who work in depts you manage -->
-
-	    	
+<?php include "footer.php";?>
+	

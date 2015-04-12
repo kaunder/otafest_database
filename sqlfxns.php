@@ -573,3 +573,28 @@ SQL;
 return $sql;
 }
 
+/*
+*Display Supervisees
+*/
+function SQLdisplaySupervisees(){
+$sql=<<<SQL
+	SELECT S.convention_name, V.volunteer_id, V.firstName, V.lastName, V.phoneNumber
+	FROM Volunteer V, Supervises S
+	WHERE S.supervisor_id=:userid AND S.convention_name=:convoyr  AND S.supervisee_id=V.volunteer_id
+	ORDER BY S.convention_name
+SQL;
+return $sql;
+}
+
+/*
+*Display all volunteers who work in a given dept in a given year
+*/
+function SQLdisplayDeptVols(){
+$sql=<<<SQL
+	SELECT DISTINCT W.dept_name, GROUP_CONCAT(CONCAT(V.lastName, ", ",V.firstName) separator';') AS vnames
+       	FROM VolunteerWorks W JOIN Volunteer V ON W.volunteer_id=V.volunteer_id JOIN Department D ON W.dept_name=D.dept_name AND W.convention_name=D.convention_name
+       WHERE D.manager_id=:userid AND D.convention_name=:convoyr
+       GROUP BY W.dept_name
+SQL;
+return $sql;
+}
