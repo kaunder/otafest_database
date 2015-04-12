@@ -153,8 +153,16 @@ return $sql;
 */
 function SQLgetManagersForDropdown(){
 $sql=<<<SQL
- SELECT lastName, firstName, volunteer_id FROM volunteerDatabase.Volunteer ORDER BY lastName ASC
 
+SELECT v.volunteer_id, v.firstName, v.lastName
+FROM Volunteer v
+WHERE v.volunteer_id IN (
+	SELECT d.manager_id
+	FROM Department d
+    ) OR v.volunteer_id IN (
+	SELECT s.supervisor_id
+    FROM Supervises s	
+    )
 SQL;
 
 return $sql;
@@ -476,5 +484,16 @@ $sql=<<<SQL
 	FROM Department D
 	WHERE D.convention_name=:convoyr AND D.dept_name=:dept
 SQL;
+return $sql;
+}
+
+/*
+*Insert a new Panel into the database
+*/
+function SQLcreateNewPanel(){
+$sql=<<<SQL
+	INSERT INTO Panel VALUES(:panelname, :category, :presenter, :presenterphone, :room, :age, :starttd, :endtd, :dept)
+SQL;
+
 return $sql;
 }

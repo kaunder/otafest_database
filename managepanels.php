@@ -46,5 +46,56 @@
 }
 ?>
 
+	
+	<!-- Get New Contest form variables-->
+	       <?php
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
+		}
+		if(isset($_GET['panelname'])){
+		   $panelname=$_GET['panelname'];
+		}
+		if(isset($_GET['category'])){
+		   $category=$_GET['category'];
+		}
+		if(isset($_GET['presenter'])){
+		   $presenter=$_GET['presenter'];
+		}
+		if(isset($_GET['presenterphone'])){
+		   $presenterphone=$_GET['presenterphone'];
+		}
+		if(isset($_GET['room'])){
+		   $room=$_GET['room'];
+		}
+		if(isset($_GET['age'])){
+		   $age=$_GET['age'];
+		}
+		if(isset($_GET['starttd'])){
+		   $starttd=$_GET['starttd'];
+		}
+		if(isset($_GET['endtd'])){
+		   $endtd=$_GET['endtd'];
+		}
+
+	       ?>
+
+	 <!--Call function to insert the new Panel into the database, then reload page-->
+	       <?php
+		if((isset($_GET['panelname']))&&(isset($_GET['starttd']))&&(isset($_GET['endtd']))){
+		//echo "Inserting panel...$panelname";
+		//Panels are always controlled by the Special Events dept
+		if(!createNewPanel($convoyear, $panelname, $category, $presenter, $presenterphone, $room, $age, $starttd, $endtd, "Special Events")){
+			echo "ERROR: Could not add your panel!";
+		}else{
+			echo "Creating new panel: $panelname<br>";
+		}
+		}
+	       ?>
+
+
+
+
+
+
 <?php include "footer.php";?>
 

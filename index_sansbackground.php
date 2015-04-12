@@ -35,9 +35,6 @@
 	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Fugaz+One' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="otatheme.css">
-        
-        
-      <body link="#d7df01" vlink="#a9f5f2" alink="#81f7f3" background="otaPics/~bg.png">
 
 
 

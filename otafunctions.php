@@ -1611,7 +1611,7 @@ return $temp;
 *$tag is appended to the end of returned variables and defaults to the empty string
 *(this allows multiple uses of this function on the same page without overwriting variables)
 */
-function getMangersForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
+function getManagersForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetManagersForDropdown();
@@ -1660,8 +1660,6 @@ function getDeptMgr($convoyear, $dept){
 	 $stmt = $con->prepare($sql);
 	 
 
-	 echo "$convoyear  $dept";
-
 	 //bind to parameters
 	 //this prevents little billy tables
 	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
@@ -1683,4 +1681,47 @@ function getDeptMgr($convoyear, $dept){
 	   $id=$manager['manager_id'];	
 	}
 return $id;
+}
+
+
+
+/*
+*Insert a new Panel in the database
+*/
+function createNewPanel($convoyear, $panelname, $category, $presenter, $presenterphone, $room, $age, $starttd, $endtd, $dept){
+
+	 echo "in the function<br>";
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewPanel();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':panelname',$panelname,PDO::PARAM_STR);
+	 $stmt->bindParam(':presenter',$presenter,PDO::PARAM_STR);
+	 $stmt->bindParam(':category',$category,PDO::PARAM_STR);
+	 $stmt->bindParam(':presenterphone',$presenterphone,PDO::PARAM_STR);
+	 $stmt->bindParam(':room',$room,PDO::PARAM_STR);
+	 $stmt->bindParam(':age',$age,PDO::PARAM_STR);
+	 $stmt->bindParam(':starttd',$starttd,PDO::PARAM_STR);
+	 $stmt->bindParam(':endtd',$endtd,PDO::PARAM_STR);
+	 $stmt->bindParam(':dept',$dept,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$panels=$stmt->execute();
+
+	if(!$panels){
+		echo "\nPDO::errorInfo():\n";
+	  	print_r($con->errorInfo());
+	  }
+
+
+return $panels;
 }
