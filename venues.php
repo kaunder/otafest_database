@@ -14,3 +14,14 @@
 	  </div>
 
 
+<br>
+<h3>Venues:</h3>
+
+
+	   <!--Display all venues-->
+	  <div class="container-fluid voffset">
+	       <?php
+		  echo getVenuesTable();
+	       ?>
+
+	  </div>

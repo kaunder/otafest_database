@@ -648,3 +648,19 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Return all venues - for table format
+*/
+function SQLgetVenuesTable(){ 
+$sql=<<<SQL
+SELECT N.venue_name, N.streetAddress, N.postalCode, N.contact_person_name, N.contact_person_number, V.firstName, V.lastName
+FROM Venue N LEFT OUTER JOIN Volunteer V ON N.coordinatingVolunteerId=V.volunteer_id
+SQL;
+return $sql;
+}
+
+
+
+
+

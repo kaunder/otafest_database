@@ -2116,6 +2116,48 @@ function getVenues($dest){
 return $temp;
 }
 
+/*
+*Return all venues in table format
+*/
+function getVenuesTable(){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVenuesTable();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$venues=$stmt->execute();
+
+	$temp="<table class='table table-condensed'>";
+
+	$temp.="<tr><th>Venue Name</th><th>Street Address</th><th>Postal Code</th><th>Contact Person</th><th>Contact Phone</th><th>Coordinating Volunteer</th></tr>";	
+
+
+	if($venues){
+		//Build the formatted string to be returned
+		while($row=$stmt->fetch()){
+			$venuename=$row['venue_name'];
+			$addr=$row['streetAddress'];
+			$post=$row['postalCode'];
+			$contact=$row['contact_person_name'];
+			$phone=$row['contact_person_number'];
+			$volfirst=$row['firstName'];
+			$vollast=$row['lastName'];
+	$temp.="<tr><td>$venuename</td><td>$addr</td><td>$post</td><td>$contact</td><td>$phone</td><td>$volfirst $vollast</td></td>";	
+		}
+	}
+
+	$temp.="</table>";
+
+return $temp;
+}
+
 
 /*
 *Insert a new Covention in the database
