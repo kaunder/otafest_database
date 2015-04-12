@@ -36,7 +36,7 @@
 
 
 <?php 
-if(isset($_GET['venuename'])){
+if(isset($_GET['venuename'])&&$accesslev==0){
 	include "newconvo.php";	
 }
 ?>

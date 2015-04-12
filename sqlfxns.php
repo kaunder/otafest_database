@@ -562,3 +562,14 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Insert a new venue
+*/
+function SQLcreateNewVenue(){
+$sql=<<<SQL
+	INSERT INTO Venue VALUES(:venuename, :addr, :postal, :contact, :phone,:volid)
+SQL;
+return $sql;
+}
+

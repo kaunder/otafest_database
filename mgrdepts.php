@@ -96,7 +96,7 @@
 			  if(isset($_GET['volidadd'])){
 			    $preserve.="&volidadd=$volidadd";
 			  }
-			  //Only existing managers should exist in the dropdown
+			  //Only volunteers who are not blacklisted should be available for selection
 			  echo getVolNotBLForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
 		    </ul>
 	   </div>

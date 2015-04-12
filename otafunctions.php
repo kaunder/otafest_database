@@ -1971,3 +1971,34 @@ function createNewConvo($convoname, $venuename, $startdate, $enddate){
 
 return $newconv;
 }
+
+
+/*
+*Insert a new Venue into the database
+*/
+function createNewVenue($venuename, $addr, $postal, $contact, $phone, $volid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewVenue();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':venuename',$venuename,PDO::PARAM_STR);
+	 $stmt->bindParam(':addr',$addr,PDO::PARAM_STR);
+	 $stmt->bindParam(':postal',$postal,PDO::PARAM_STR);
+	 $stmt->bindParam(':contact',$contact,PDO::PARAM_STR);
+	 $stmt->bindParam(':phone',$phone,PDO::PARAM_STR);
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$newvenue=$stmt->execute();
+
+return $newvenue;
+}
