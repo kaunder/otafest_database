@@ -1701,7 +1701,7 @@ function createNewPanel($convoyear, $panelname, $category, $presenter, $presente
 	 //On the open connection, create a prepared statement from $sql
 	 $stmt = $con->prepare($sql);
 	 
-	 //bind to parameter maxid the value 10, which is of type INT
+	 //bind to parameter 
 	 //this prevents little billy tables
 	 $stmt->bindParam(':panelname',$panelname,PDO::PARAM_STR);
 	 $stmt->bindParam(':presenter',$presenter,PDO::PARAM_STR);
@@ -1724,4 +1724,32 @@ function createNewPanel($convoyear, $panelname, $category, $presenter, $presente
 
 
 return $panels;
+}
+
+/*
+*Updates website access level 
+*/
+function updateAccessLevel($volid, $newlevel){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLupdateAccessLevel();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 $stmt->bindParam(':newlevel',$newlevel,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+return $vols;
+
+
 }

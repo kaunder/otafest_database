@@ -497,3 +497,13 @@ SQL;
 
 return $sql;
 }
+
+/*
+*Update website access level
+*/
+function SQLupdateAccessLevel(){
+$sql=<<<SQL
+	UPDATE Volunteer SET access_level=:newlevel WHERE volunteer_id=:volid
+SQL;
+return $sql;
+}

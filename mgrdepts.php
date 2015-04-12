@@ -97,7 +97,7 @@
 			    $preserve.="&volidadd=$volidadd";
 			  }
 			  //Only existing managers should exist in the dropdown
-			  echo getManagersForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
+			  echo getVolunteersForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
 		    </ul>
 	   </div>
 
@@ -141,8 +141,12 @@
 		if(!updateDeptManager($convoyearadd, $deptadd, $volidadd)){
 			echo "ERROR: Could not update manager for $deptnameadd!";
 		}
+		if(!updateAccessLevel($volidadd, 1)){
+			echo "ERROR: Could not update website access level for new manager. Please contact webmaster.";
+		}
 		}
 	       ?>
+
 
 
 <?php include "footer.php";?>
