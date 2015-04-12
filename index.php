@@ -7,7 +7,7 @@
    unset($_SESSION["username"]);  
 ?>
 <!DOCTYPE HTML>
-<html>
+<html class="intro">
     <head>
         <title>
 	  Otafest Volunteer Database - Login
@@ -37,7 +37,7 @@
 	<link rel="stylesheet" type="text/css" href="otatheme.css">
         
         
-      <body link="#d7df01" vlink="#a9f5f2" alink="#81f7f3" background="otaPics/~bg.png">
+
 
 
 
@@ -48,8 +48,9 @@
 </script>
     </head>
     
-    <body> 
-
+    <body class="intro"> 
+      <!--body link="#d7df01" vlink="#a9f5f2" alink="#81f7f3" background="otaPics/~bg.png"-->
+      <div class="intro-wrapper">
     <div class="container">
 
        <h1>
@@ -78,6 +79,7 @@
 </form>
 </center>
 
+</div>
 </div>
 </body>
 </html>

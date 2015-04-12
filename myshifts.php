@@ -4,7 +4,7 @@
 <!-- My Shifts specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
 	<h1 class="page-header">Shifts</h1>
-	   <h3> Your Shifts:</h3>
+	   
 	  <!-- Single button -->
 	  <div class="btn-group">
 <!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
@@ -26,7 +26,7 @@
 		    </ul>
 	   </div>
 
-
+<h3>Shifts You're Working:</h3>
 	   <!--Display shifts for the year selected-->
 	  <div class="container-fluid voffset">
 	       <?php
@@ -36,8 +36,21 @@
 		}
 	       ?>
 	  </div>
-        </div>
 
+
+
+<h3>Shifts You've Applied For:</h3>
+	   <!--Display shifts for the year selected-->
+	  <div class="container-fluid voffset">
+	       <?php
+	       if(isset($_GET['convoyear'])){
+		   $convoyear = $_GET['convoyear'];
+		echo getShiftsApplied($username, $convoyear);
+		}
+	       ?>
+	  </div>
+        </div>
+        </div>
     <?php include "footer.php";?>
 
 

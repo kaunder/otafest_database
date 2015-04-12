@@ -175,6 +175,8 @@ header("Location: index.php");
             <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
 	    <li><a href="myinfo.php" class="sidebarmain">My Info</a></li>
 	    <li><a href="myshifts.php" class="sidebarmain">My Shifts</a></li>
+	    <li><a href="myshifts.php"><span class="glyphicon glyphicon-chevron-right"></span> View Shifts</a></li>
+	    <li><a href="myshiftsapply.php"><span class="glyphicon glyphicon-chevron-right"></span> Apply For Shifts</a></li>
 	    <?php
 		
 		//Manager/Executive Level Pages:

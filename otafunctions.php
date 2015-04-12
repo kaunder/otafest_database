@@ -186,6 +186,9 @@ function getVolDeptsByYearWMgr($username, $convoyear){
 	$temp="<table class='table table-condensed'>";
 	$temp.="<tr><th>Department</th><th>Manager</th><th>Manager's Phone Number</th></tr>";
 
+	//Initialize $deptname in this scope
+	$deptname=null;
+
 	//$temp.="<h4>Departments Worked During $convoyear:</h4>";
 	if($vols){
 	while($dept=$stmt->fetch()){
@@ -198,7 +201,17 @@ function getVolDeptsByYearWMgr($username, $convoyear){
 		}
 	}
 		$temp.="</table>";
-		return $temp;
+
+
+		//If volunteer did not work in any depts during the given convo,
+		//return a message instead of a blank table
+		if(is_null($deptname)){
+			$temp="(You didn't work in any departments during $convoyear)";
+		}
+
+
+
+return $temp;
 }
 
 
@@ -346,6 +359,9 @@ function getShifts($username, $convoyear){
 	$temp="<table class='table table-condensed'>";
 	$temp.="<tr><th>Department</th><th>Shift Start</th><th>Shift End</th></tr>";
 
+	//Initialize deptname in this scope
+	$deptname=null;
+
 	if($shifts){
 	while($shift=$stmt->fetch()){
 		//Build the formatted string to be returned
@@ -356,6 +372,66 @@ function getShifts($username, $convoyear){
 		}
 	}
 		$temp.="</table>";
+
+		//If volunteer did not work any shifts in the specified year,
+		//return a message instead of a blank table
+		if(is_null($deptname)){
+			$temp="(You're not working any shifts during $convoyear)";
+		}
+
+
+
+return $temp;
+
+}
+
+/*
+*Return all shifts applied for for a given volunteer, convention
+*/
+function getShiftsApplied($username, $convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetShiftsApplied();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter maxid the value 10, which is of type INT
+	 //this prevents little billy tables
+	 $stmt->bindParam(':userid',$username,PDO::PARAM_INT);
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$shifts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Shift Start</th><th>Shift End</th></tr>";
+
+	//Initialize deptname in this scope
+	$deptname=null;
+
+	if($shifts){
+	while($shift=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$deptname=$shift['dept_name'];
+		$shiftstart=$shift['shift_start'];
+		$shiftend=$shift['shift_end'];
+		$temp.="<tr><td> $deptname</td><td>$shiftstart</td><td>$shiftend</td></tr>";
+		}
+	}
+		$temp.="</table>";
+
+		//If volunteer did not apply for any shifts in the specified year,
+		//return a message instead of a blank table
+		if(is_null($deptname)){
+			$temp="(You didn't apply for any shifts during $convoyear)";
+		}
+
 return $temp;
 
 }
@@ -1541,6 +1617,39 @@ function insertVolunteerWorks($volid, $dept, $shiftstart, $shiftend, $convoyear)
 return $works;
 }
 
+
+/*
+*Insert a new entry into the VolunteerApplies table
+*/
+function insertVolunteerApplies($volid, $dept, $shiftstart, $shiftend, $convoyear){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLinsertVolunteerApplies();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':dept',$dept,PDO::PARAM_STR);
+	 $stmt->bindParam(':volid',$volid,PDO::PARAM_INT);
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 $stmt->bindParam(':shiftstart',$shiftstart,PDO::PARAM_STR);
+	 $stmt->bindParam(':shiftend',$shiftend,PDO::PARAM_STR);
+
+
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$applies=$stmt->execute();
+
+
+return $applies;
+}
+
 /*
 *Return names of all volunteers, formatted for use in a drop-down list
 *Also saves existing form values
@@ -2116,6 +2225,55 @@ function displaySupervisees($convoyear, $userid){
 	
 		$temp.="</table>";
 
+
+return $temp;
+}
+
+/*
+*Return all shifts that a volunteer has applied for
+*/
+function getAppliedFor($userid){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetAppliedFor();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':userid',$userid,PDO::PARAM_INT);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$shifts=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	$temp.="<tr><th>Department</th><th>Shift Start</th><th>Shift End</th><th>Convention</th></tr>";
+
+	//Declare $depname in this context
+	$depname=null;
+
+	if($shifts){
+	while($shift=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$depname=$shift['dept_name'];
+		$start=$shift['shift_start'];
+		$end=$shift['shift_end'];
+		$convo=$shift['convention_name'];
+		$temp.="<tr><td> $depname</td><td>$start</td><td>$end</td><td>$convo</td></tr>";
+		}
+	}
+		$temp.="</table>";
+
+		//If user did not apply for any shifts, return message instead
+		if(is_null($depname)){
+		$temp="You have not applied for any shifts.";
+		}
 
 return $temp;
 }

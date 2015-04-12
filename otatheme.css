@@ -18,6 +18,24 @@ body{
     font-family: "Ubuntu Condensed", Arial, sans-serif
 }
 
+html.intro{
+    height:100%;
+    margin:0;
+}
+
+body.intro{
+    background-image:url("otaPics/~bg.png");
+    height: 100%;
+    margin: 0;
+}
+
+.intro-wrapper{
+    min-height: 100%;
+    background: rgba(255,255,255,0.333);
+    color: #009; 
+}
+
+
 .voffset {margin-top:8px; }
 
 .scrollable-menu {

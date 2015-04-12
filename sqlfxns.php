@@ -73,6 +73,20 @@ return $sql;
 }
 
 /*
+*Return all shifts applied for, with associated department
+*/
+function SQLgetShiftsApplied(){
+$sql=<<<SQL
+	SELECT W.dept_name, W.shift_start, W.shift_end
+	FROM Volunteer V, VolunteerAppliesFor W
+	WHERE V.volunteer_id=:userid AND W.volunteer_id=V.volunteer_id AND W.convention_name=:convoyr
+
+SQL;
+
+return $sql;
+}
+
+/*
 *Return all scholarship winners with year and amount won
 */
 function SQLgetSchoWinners(){
@@ -99,7 +113,7 @@ return $sql;
 }
 
 /*
-*
+*Return all contests with judges
 */
 function SQLgetContests(){
 $sql=<<<SQL
@@ -110,6 +124,8 @@ GROUP BY C.contest_name, C.contest_type
 SQL;
 return $sql;
 }
+
+
 
 
 
@@ -442,7 +458,17 @@ return $sql;
 */
 function SQLinsertVolunteerWorks(){
 $sql=<<<SQL
-INSERT INTO VolunteerWorks values(:volid, :dept, :shiftstart, :shiftend, :convoyr)
+	INSERT INTO VolunteerWorks values(:volid, :dept, :shiftstart, :shiftend, :convoyr)
+SQL;
+return $sql;
+}
+
+/*
+*Insert new entry in the VolunteerApplies table
+*/
+function SQLinsertVolunteerApplies(){
+$sql=<<<SQL
+	INSERT INTO VolunteerAppliesFor values(:volid, :dept, :shiftstart, :shiftend, :convoyr)
 SQL;
 return $sql;
 }
@@ -595,6 +621,18 @@ $sql=<<<SQL
        	FROM VolunteerWorks W JOIN Volunteer V ON W.volunteer_id=V.volunteer_id JOIN Department D ON W.dept_name=D.dept_name AND W.convention_name=D.convention_name
        WHERE D.manager_id=:userid AND D.convention_name=:convoyr
        GROUP BY W.dept_name
+SQL;
+return $sql;
+}
+
+/*
+*Return all shifts a volunteer has applied for
+*/
+function SQLgetAppliedFor(){
+$sql=<<<SQL
+SELECT DISTINCT * FROM VolunteerAppliesFor
+WHERE volunteer_id=1:userid
+ORDER BY convention_name ASC
 SQL;
 return $sql;
 }
