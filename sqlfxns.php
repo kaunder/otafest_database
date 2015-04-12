@@ -117,10 +117,10 @@ return $sql;
 */
 function SQLgetContests(){
 $sql=<<<SQL
-SELECT C.contest_name, C.contest_type, GROUP_CONCAT(CONCAT(V.firstName," ",V.lastName) separator ';') AS judges
-FROM Contest C JOIN ContestJudge J ON C.contest_name=J.contest_name AND C.convention_name=J.convention_name JOIN Volunteer V ON J.judge_id=V.volunteer_id
-Where C.convention_name=:convoyr
-GROUP BY C.contest_name, C.contest_type
+	SELECT C.contest_name, C.contest_type, GROUP_CONCAT(CONCAT(V.firstName," ",V.lastName) separator ';') AS judges
+	FROM Contest C LEFT OUTER JOIN ContestJudge J ON C.contest_name=J.contest_name AND C.convention_name=J.convention_name LEFT OUTER JOIN Volunteer V ON J.judge_id=V.volunteer_id
+	Where C.convention_name=:convoyr
+	GROUP BY C.contest_name, C.contest_type
 SQL;
 return $sql;
 }
