@@ -1519,6 +1519,48 @@ return $temp;
 
 
 /*
+*Return names of all volunteers WHO HAVE NOT BEEN BLACKLISTED 
+*formatted for use in a drop-down list
+*Also saves existing form values
+*$tag is appended to the end of returned variables and defaults to the empty string
+*(this allows multiple uses of this function on the same page without overwriting variables)
+*/
+function getVolNotBLForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetVolNotBLForDropdown();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$vols=$stmt->execute();
+
+	$temp="";
+
+	if($vols){
+		//Build the formatted string to be returned
+		while($vol=$stmt->fetch()){
+			$fname=$vol['firstName'];
+			$lname=$vol['lastName'];
+			$volid=$vol['volunteer_id'];
+			$volname=$lname.", ".$fname;
+			$prev=$volname;
+			//Display volunteer name, but store volunteer id for easy queries
+			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyear$tag=$exyr&$savestring\">$lname, $fname</a></li>";
+//Note: need to pass in existing year, contest name to preserve value of Convention Year, contest name drop down when pg refreshed (if three drop-downs are being used in same page)
+		}
+	}
+
+return $temp;
+}
+
+
+/*
 *Update manager of a selected dept for a selected convo year
 */
 function updateDeptManager($convoyearadd, $deptnameadd, $volidadd){

@@ -507,3 +507,16 @@ $sql=<<<SQL
 SQL;
 return $sql;
 }
+
+/*
+*Get list of all vols who have not been blacklisted
+*/
+function SQLgetVolNotBLForDropdown(){
+$sql=<<<SQL
+	SELECT DISTINCT V.lastName, V.firstName, V.volunteer_id
+ 	FROM Volunteer V  LEFT OUTER JOIN VolunteerComments C ON V.volunteer_id=C.volunteer_id
+ 	WHERE NOT C.vol_comment LIKE '%Blacklisted%' OR C.vol_comment IS NULL
+ 	ORDER BY lastName ASC
+SQL;
+return $sql;
+}

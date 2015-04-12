@@ -97,7 +97,7 @@
 			    $preserve.="&volidadd=$volidadd";
 			  }
 			  //Only existing managers should exist in the dropdown
-			  echo getVolunteersForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
+			  echo getVolNotBLForDropdownExtend("depts.php", $convoyearadd, "add", $preserve);?>
 		    </ul>
 	   </div>
 
