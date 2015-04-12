@@ -11,10 +11,10 @@
 
 	
 
-
-
+	
 
 	   <!--Insert new scholarship winners-->
+	   <div class="row">
 	  <h3> Add New Scholarship Winner</h3>
 <form action="newScholWinnerDialog.php" method="get">
 
@@ -81,9 +81,26 @@
 	   
   <input type="submit" value="Create!"/>
 </form>
+</div>
+
+<div class="row">
+<?php include "addscholjudge.php";?>
+</div>
+
+<div class="row">
+<br>
+<h3>Scholarship Judges:</h3>
+
+
+	   <!--Display all scholarship judges-->
+	  <div class="container-fluid voffset">
+	       <?php
+		  echo getJudges($convoyear, $accesslev);
+	       ?>
+
+	  </div>
 
 
 </div>  
 
-<?php include "addscholjudge.php";?>
-
+<?php include "footer.php";?>

@@ -1,5 +1,5 @@
-<div class="col-sm-9 col-md-10 main">
 <h3> Add Scholarship Judge</h3>
+
 
 <form action="newScholWinnerDialog.php" method="get">
 
@@ -26,7 +26,6 @@
 		}
 	       ?>
 
-
 	       <!--Convention Year Dropdown -->
 
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
@@ -34,7 +33,7 @@
 		    <ul class="dropdown-menu" role="menu">
 		    	<?php echo getConvoYears("newScholWinnerDialog.php", $convoyearadd);?>
 		    </ul>
-	   </div>
+	  
 
 
 
@@ -55,7 +54,7 @@
 		$go=0;
 	       }
 	       ?>
-
+	     </div>
 
 	       <!--Schol Name Dropdown -->
 	  <div class="btn-group">
@@ -91,16 +90,19 @@
 	    <ul class="dropdown-menu scrollable-menu "role="menu">
 		    	<?php echo getVolunteersForDropdown4("newScholWinnerDialog.php", $convoyear, $scholnameadd, "j");?>
 		    </ul>
-	   </div>
+	   
+
 
 	   <input type="hidden" name="convoyear" value="<?php echo $convoyear; ?>">
 	   <input type="hidden" name="scholnameadd" value="<?php echo $scholnameadd; ?>">
 	   <input type="hidden" name="volnamej" value="<?php echo $volnamej; ?>">
 	   <input type="hidden" name="volidj" value="<?php echo $volidj; ?>">
 	   <input type="hidden" name="go" value="1">
-	   </div>
+</div>
+
   <input type="submit" value="Add Judge!"/>
 </form>
+
 
 	<!-- Get New Judge form variables-->
 	       <?php
@@ -125,8 +127,7 @@
 		}
 	       ?>
 
-        </div>
 
-	
 
-    <?php include "footer.php";?>
+
+    

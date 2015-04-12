@@ -630,9 +630,21 @@ return $sql;
 */
 function SQLgetAppliedFor(){
 $sql=<<<SQL
-SELECT DISTINCT * FROM VolunteerAppliesFor
-WHERE volunteer_id=1:userid
-ORDER BY convention_name ASC
+	SELECT DISTINCT * FROM VolunteerAppliesFor
+	WHERE volunteer_id=1:userid
+	ORDER BY convention_name ASC
+SQL;
+return $sql;
+}
+
+/*
+*Get all scholarship judges
+*/
+function sqlGetJudges(){
+$sql=<<<SQL
+	SELECT J.convention_name, GROUP_CONCAT(CONCAT(V.firstName, " ", V.lastName) separator ';') AS names  
+	FROM ScholarshipJudge J JOIN Volunteer V ON J.judge_id=V.volunteer_id
+	GROUP BY J.convention_name
 SQL;
 return $sql;
 }

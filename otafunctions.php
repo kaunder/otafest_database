@@ -2277,3 +2277,61 @@ function getAppliedFor($userid){
 
 return $temp;
 }
+
+
+/*
+*Return all Scholarship Judges
+*Pass in accesslev for future finer-grained access control
+*/
+function getJudges($convoyear, $accesslev){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLgetJudges();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //Initialize convo in this scope
+	 $convo=null;	 	 
+
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$judges=$stmt->execute();
+
+	//Result is returned in a table format
+	$temp="<table class='table table-condensed'>";
+	
+	$temp.="<tr><th>Convention</th><th>Scholarship Judge(s)</th></tr>";
+	
+
+	if($judges){
+	while($judge=$stmt->fetch()){
+		//Build the formatted string to be returned
+		$convo=$judge['convention_name'];
+		$judgenames=$judge['names'];
+
+		//May exist multiple judges, explode them
+		$judgearray=explode(';',$judgenames);
+		
+		//Format result
+		$temp.="<tr><td> $convo</td><td>$judgearray[0]";
+			for($i=1;$i<count($judgearray);$i++){
+				$temp.="<br>$judgearray[$i]";
+			}
+			$temp.="</td></tr>";
+		
+	     }
+	}
+		$temp.="</table>";
+
+		//If there were no judges, return a message string
+		if(is_null($convo)){
+			$temp="There are no scholarship judges on file.";
+		}
+
+return $temp;
+
+}
