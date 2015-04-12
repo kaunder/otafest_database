@@ -14,7 +14,7 @@
 	<div class="form-group">
     	     <label class="col-md-2 control-label" for="addr">Street Address</label>
     	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control" name="addr" placeholder="" required>
+    	     	  <input type="text" class="form-control" name="addr" placeholder="">
        	     </div>
 		  <div class="col-md-6"></div>
 	</div>
@@ -22,9 +22,9 @@
 
 <div class="row">
 	<div class="form-group">
-    	     <label class="col-md-2 control-label" for="postal">Postal Code</label>
+    	     <label class="col-md-2 control-label required" for="postal">Postal Code</label>
     	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control" name="postal" placeholder="" required>
+    	     	  <input type="text" class="form-control" name="postal" placeholder="">
        	     </div>
 		  <div class="col-md-6"></div>
 	</div>
@@ -34,7 +34,7 @@
 	<div class="form-group">
     	     <label class="col-md-2 control-label" for="contact">Venue Contact Person</label>
     	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control" name="contact" placeholder="" required>
+    	     	  <input type="text" class="form-control" name="contact" placeholder="">
        	     </div>
 		  <div class="col-md-6"></div>
 	</div>
@@ -44,7 +44,7 @@
 	<div class="form-group">
     	     <label class="col-md-2 control-label" for="phone">Contact Phone</label>
     	     <div class="col-md-4">
-    	     	  <input type="text" class="form-control" name="phone" placeholder="" required>
+    	     	  <input type="text" class="form-control" name="phone" placeholder="">
        	     </div>
 		  <div class="col-md-6"></div>
 	</div>
