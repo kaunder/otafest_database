@@ -27,6 +27,7 @@ body.intro{
     background-image:url("otaPics/~bg.png");
     height: 100%;
     margin: 0;
+    background-size:100% auto
 }
 
 .intro-wrapper{
