@@ -457,7 +457,7 @@ function getSchoWinners(){
 
 	//Result is returned in a table format
 	$temp="<table class='table table-condensed'>";
-	$temp.="<tr><th>Winner</th><th>Convention</th><th>Scholarship Amount</th></tr>";
+	$temp.="<tr><th>Winner</th><th>Convention</th><th>Scholarship Name</th><th>Scholarship Amount</th></tr>";
 
 	if($schols){
 	while($schol=$stmt->fetch()){
@@ -466,7 +466,8 @@ function getSchoWinners(){
 		$winnerlast=$schol['lastName'];
 		$convo=$schol['convention_name'];
 		$amt=$schol['amount'];
-		$temp.="<tr><td> $winnerfirst $winnerlast</td><td>$convo</td><td>$amt</td></tr>";
+		$name=$schol['scholarship_name'];
+		$temp.="<tr><td> $winnerfirst $winnerlast</td><td>$convo</td><td>$name</td><td>$amt</td></tr>";
 		}
 	}
 		$temp.="</table>";
@@ -1904,8 +1905,6 @@ return $id;
 *Insert a new Panel in the database
 */
 function createNewPanel($convoyear, $panelname, $category, $presenter, $presenterphone, $room, $age, $starttd, $endtd, $dept){
-
-	 echo "in the function<br>";
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLcreateNewPanel();

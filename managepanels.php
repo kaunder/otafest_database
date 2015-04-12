@@ -78,7 +78,7 @@
 		}
 
 	       ?>
-
+</div>
 	 <!--Call function to insert the new Panel into the database, then reload page-->
 	       <?php
 		if((isset($_GET['panelname']))&&(isset($_GET['starttd']))&&(isset($_GET['endtd']))){
