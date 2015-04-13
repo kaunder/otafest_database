@@ -114,10 +114,37 @@ if (isset($_POST['username']) and isset($_POST['password'])){
 
    //3.1.2 If the posted values are equal to the database values, then session will be created for the user.
    if ($count == 1){
-        $_SESSION['username'] = $username;
-        $row=$stmt->fetch();
-        $_SESSION['accesslev']= $row["access_level"];
-        $accesslev=$_SESSION['accesslev'];
+
+      //Compare input password to stored pswd for each user level
+      /*THIS IS TOTALLY INSECURE!
+       *The intent here is to highlight the different functionalities available
+       *to the different user levels only, NOT to provide any kind of security!
+       *If user does not use correct pswd, return to login page with msg
+      */
+
+      //Initialize newsession bool to false
+      $newsession=false;
+
+      //Get access level
+      $row=$stmt->fetch();
+
+      if(($row['access_level']==0)&&($password=="deathtotrees")){
+		$newsession=true;
+      }else if(($row['access_level']==1)&&($password=="manager")){
+		$newsession=true;
+      }else if(($row['access_level']==2)&&($password=="volunteer")){
+		$newsession=true;
+	}
+      
+      //Start a new session if user entered a valid password
+      if($newsession){
+		$_SESSION['username'] = $username;
+        	$_SESSION['accesslev']= $row["access_level"];
+        	$accesslev=$_SESSION['accesslev'];
+	}else{
+		//Else kick back to the index page
+		header("Location: index.php");
+	}
 }else{
    //3.1.3 If the login credentials doesn't match, display error and redirect
    //back to the login page.
