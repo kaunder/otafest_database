@@ -590,16 +590,6 @@ return $sql;
 }
 
 /*
-*Insert a new department
-*/
-function SQLcreateNewDept(){
-$sql=<<<SQL
-	INSERT INTO Department VALUES(:deptname, :mgrid, :numvols, :convoyr)
-SQL;
-return $sql;
-}
-
-/*
 *Insert a new venue
 */
 function SQLcreateNewVenue(){

@@ -1,11 +1,11 @@
-<?php
+ <?php
    include "dashboard.php";
 ?>
 <!-- Department specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Update Managers</h1>
+	<h1 class="page-header">My Departments</h1>
 
-	  <h3></h3>
+	  <h3>View Departments You Manage</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -24,7 +24,7 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYears("depts.php");?>
+		    	<?php echo getConvoYears("mydept.php");?>
 		    </ul>
 	   </div>
 
@@ -33,19 +33,14 @@
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){
-		echo getDepts($convoyear);
-		}
-	       ?>
+			echo displayDeptInfo($convoyear, $username);
+			echo "<h3>Volunteers Working In Your Departments:</h3>";
+			echo displayDeptVols($convoyear, $username);	
+	}	       
+		?>
 	  </div>
 
 
-<!-- Therefore only display the remaining page content if access level check passes-->
-     <?php
-	if($accesslev>2){
-	//display the managers area if current user has permissions 
-	include mgrdepts.php;
-	}
-     ?>      
+<!--Display table of all volunteers who work in depts you manage -->
 
-
-	
+	    	

@@ -1227,7 +1227,7 @@ function displayDeptVols($convoyear, $userid){
 	//If no results returned for the selected convention year, 
 	//display a message:
 	if(is_null($depname)){
-		$temp="(You didn't manage any departments during $convoyear)";
+		$temp="(No volunteers worked in your departments during $convoyear)";
 	}
 	
 		
@@ -1827,7 +1827,9 @@ return $temp;
 *$tag is appended to the end of returned variables and defaults to the empty string
 *(this allows multiple uses of this function on the same page without overwriting variables)
 */
-function getManagersForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
+function getManagersForDropdownExtend($dest, $exyr){
+
+	 //echo "savestring=$savestring";
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLgetManagersForDropdown();
@@ -1849,11 +1851,11 @@ function getManagersForDropdownExtend($dest, $exyr, $tag="", $savestring=""){
 		while($vol=$stmt->fetch()){
 			$fname=$vol['firstName'];
 			$lname=$vol['lastName'];
-			$volid=$vol['volunteer_id'];
-			$volname=$lname.", ".$fname;
-			$prev=$volname;
+			$mgrid=$vol['volunteer_id'];
+			$mgrname=$lname.", ".$fname;
+			$prev=$mgrname;
 			//Display volunteer name, but store volunteer id for easy queries
-			$temp.="<li><a href=\"$dest?volname$tag=$volname&volid$tag=$volid&convoyear$tag=$exyr&$savestring\">$lname, $fname</a></li>";
+			$temp.="<li><a href=\"$dest?mgrname=$mgrname&mgrid=$mgrid&convoyear=$exyr\">$lname, $fname</a></li>";
 //Note: need to pass in existing year, contest name to preserve value of Convention Year, contest name drop down when pg refreshed (if three drop-downs are being used in same page)
 		}
 	}
@@ -2185,6 +2187,35 @@ function createNewConvo($convoname, $venuename, $startdate, $enddate){
 
 return $newconv;
 }
+
+/*
+*Insert a new Department in the database
+*/
+function createNewDept($convoyear, $mgrid, $deptname, $numvols){
+
+	 //call SQL fxn to perform the query, store returned string
+	 $sql = SQLcreateNewDept();
+
+	//Conncet to database
+ 	 $con = connectToDB();
+	 
+	 //On the open connection, create a prepared statement from $sql
+	 $stmt = $con->prepare($sql);
+	 
+	 //bind to parameter 
+	 //this prevents little billy tables
+	 $stmt->bindParam(':deptname',$deptname,PDO::PARAM_STR);
+	 $stmt->bindParam(':mgrid',$mgrid,PDO::PARAM_STR);
+	 $stmt->bindParam(':numvols',$numbols,PDO::PARAM_INT);
+	 $stmt->bindParam(':convoyr',$convoyear,PDO::PARAM_STR);
+	 
+	 //create a variable for the result of the query
+	 //execute the statment - returns a bool of whether successfull
+	$newdept=$stmt->execute();
+
+return $newdept;
+}
+
 
 
 /*

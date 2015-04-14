@@ -1,15 +1,13 @@
-		//If comment is null, set value to "none"
-		if(is_null($vol['comments'])){
-			$cmnt="(no comments on file)";
-			$datacmnts.="<tr><td><li>$cmnt</li></td></tr>";
-		}else{
-			$cmnt=$vol['comments'];
-			//Comment may consist of several strings, separate them
-			$comments=explode (';' ,$cmnt);
-			
-
-			//Format comments
-			for($i=0;$i<count($comments);$i++){
-				$datacmnts.="<tr><td><li>$comments[$i]</li></td></tr>";
-			}
-		}
+<div class="row">
+     <div class="btn-group requried">
+    	     <label class="col-md-2 control-label" for="mgrname">Manager:</label>
+	     <div class="col-md-4">
+	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $mgrname;?> <span class="caret"></span></a>
+	    </button>
+	    <ul class="dropdown-menu scrollable-menu "role="menu">
+		    	<?php echo getVolunteersForDropdown("createdept.php", "","");?>
+	   </ul>
+	   </div>
+		  <div class="col-md-6"></div>
+	</div>
+</div>

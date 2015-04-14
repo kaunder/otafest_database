@@ -1,10 +1,11 @@
-<?php
+ <?php
    include "dashboard.php";
 ?>
-<!-- Panel specific stuff starts here-->
+<!-- Department specific stuff starts here-->
 	<div class="col-sm-9 col-md-10 main">
-	<h1 class="page-header">Panels</h1>
-	<h3>View Panels</h3>
+	<h1 class="page-header">Supervision</h1>
+
+	  <h3>Your Direct Supervisees</h3>
 
 <!-- Single button -->
 	  <div class="btn-group">
@@ -23,32 +24,19 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $convoyear;?> <span class="caret"></span></a>
 		  </button>
 		    <ul class="dropdown-menu" role="menu">
-		    	<?php echo getConvoYears("panels.php");?>
+		    	<?php echo getConvoYears("supervision.php");?>
 		    </ul>
 	   </div>
 
 
-	   <!--Display all panels-->
+	   <!--Display all depts with managers-->
 	  <div class="container-fluid voffset">
 	       <?php
 		if(isset($_GET['convoyear'])){
-			echo getPanels($convoyear, $accesslev);
-		}
-	       ?>
+			echo displaySupervisees($convoyear, $username);
+		}	       
+		?>
 	  </div>
 
-
-
-
-
-
-    <?php include "footer.php";?>
-
-
-
-
-
-
-
-
-
+<?php include "footer.php";?>
+	

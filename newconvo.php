@@ -56,6 +56,11 @@
 		echo "Inserting convention...$convoname, $venuename";
 		if(!createNewConvo($convoname, $venuename, $startdate, $enddate)){
 		echo "ERROR: Could not add convention!";
+		}else{
+			//Insert default departments
+			if(!setDefaultDepts($convoname)){
+			echo "ERROR: Could not set add default departments to $convoname! No departments added.";
+			}
 		}
 		}
 	       ?>
