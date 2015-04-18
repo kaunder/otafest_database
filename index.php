@@ -64,7 +64,7 @@
 <table border="0" >
 <tr>
 <td>
-<b>Username</b>
+<b>User ID</b>
 </td>
 <td><input type="text" name="username">
 </tr>
