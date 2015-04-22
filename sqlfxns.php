@@ -627,7 +627,7 @@ return $sql;
 */
 function SQLdisplayDeptVols(){
 $sql=<<<SQL
-	SELECT DISTINCT W.dept_name, GROUP_CONCAT(CONCAT(V.lastName, ", ",V.firstName) separator';') AS vnames
+	SELECT DISTINCT W.dept_name, GROUP_CONCAT(DISTINCT CONCAT(V.lastName, ", ",V.firstName) separator';') AS vnames
        	FROM VolunteerWorks W JOIN Volunteer V ON W.volunteer_id=V.volunteer_id JOIN Department D ON W.dept_name=D.dept_name AND W.convention_name=D.convention_name
        WHERE D.manager_id=:userid AND D.convention_name=:convoyr
        GROUP BY W.dept_name

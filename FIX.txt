@@ -1,2 +1,0 @@
--Make sure all add things have notification -> make sure it says
-"thing has been added"

@@ -1,5 +1,5 @@
 <!---------------Update Emergency Contact Info---------------------------->
-	
+
 <h3>Add/Modify Emergency Contact</h3>
 
 <form action="manageVols.php" method="get">
@@ -63,11 +63,11 @@
 
 <!-- Perform logic to load selected volunteer, new comment-->
 <!-- If new emerg contact values set, update. Else, take existing emerg contact values
-     from database -->	       
+     from database -->
 	       <?php
 	       if(isset($_GET['volidEC'])){
 		   $volidEC = $_GET['volidEC'];
-		
+
 			if(isset($_GET['emergname']) && $_GET['emergname'] != ''){
 				$emergname=$_GET['emergname'];
 			}else{
@@ -92,8 +92,7 @@
 			if(!modifyEmergContact($volidEC, $emergname, $emergphone, $emergrel)){
 			echo "ERROR: Could update Emergency Contact!";
 		}else{
-			echo "Added new Emergency Contact for ".$volname."!";
+			echo "Emergency Contact updated!";
 		}
 		}
 	       ?>
-
