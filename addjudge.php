@@ -121,6 +121,8 @@
 		//echo "Inserting judge...$convoyearadd, $contestname, $volname";
 		if(!createNewContestJudge($convoyearadd, $contestnameadd, $volid)){
 			echo "ERROR: Could not add judge!";
+		}else{
+			echo "Judge Added!";
 		}
 		}
 	       ?>

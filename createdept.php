@@ -141,11 +141,10 @@ if(isset($_GET['numvols'])){
 <!--Call function to insert the new Department into the database-->
 <?php
 if((isset($_GET['convoyear']))&&(isset($_GET['mgrid']))&&(isset($_GET['deptname']))){
-  echo "Inserting dept...$convoyear, $mgrid, $deptname";
   if(!createNewDept($convoyear, $mgrid, $deptname, $numvols)){
     echo "ERROR: Could not add your department!";
   }else{
-    echo "Creating new department: $deptname<br>";
+    echo "Created new department: $deptname<br>";
   }
 }
 ?>

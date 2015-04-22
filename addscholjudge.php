@@ -120,9 +120,11 @@
 	 <!--Call function to insert the new Scholarship Judge into the database-->
 	       <?php
 		if((isset($_GET['convoyear']))&&(isset($_GET['scholnameadd']))&&(isset($_GET['volidj']))&&($go==1)){
-		echo "Inserting judge...$convoyear, $scholnameadd, $volnamej";
+		echo "Inserting judge...";
 		if(!createNewScholarshipJudge($convoyear, $scholnameadd, $volidj)){
 			echo "ERROR: Could not add judge!";
+		}else{
+			echo"..done!";
 		}
 		}
 	       ?>

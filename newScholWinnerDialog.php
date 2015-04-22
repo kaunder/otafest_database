@@ -83,6 +83,13 @@
 </form>
 </div>
 
+<?php 
+//Echo the success/fail message from the insert function
+if(isset($insertmsg)){
+	echo $insertmsg;
+}
+?>
+
 <div class="row">
 <?php include "addscholjudge.php";?>
 </div>

@@ -22,7 +22,9 @@
 		if((isset($_GET['convoyearadd']))&&(isset($_GET['scholname']))&&(isset($_GET['volname']))&&(isset($_GET['amount']))){
 		//echo "Inserting scholarship winner...";
 		if(!createNewScholWinner($scholname, $convoyearadd, $volname, $amount)){
-			echo "ERROR: Could not add your scholarship winner!";
+			$insertmsg="ERROR: Could not add your scholarship winner!";
+		}else{
+			$insertmsg="Scholarship Winner Added!";
 		}
 		}
 	       ?>

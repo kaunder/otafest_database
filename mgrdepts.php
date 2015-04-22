@@ -143,6 +143,8 @@
 		}
 		if(!updateAccessLevel($volidadd, 1)){
 			echo "ERROR: Could not update website access level for new manager. Please contact webmaster.";
+		}else{
+			echo ".done!";
 		}
 		}
 	       ?>

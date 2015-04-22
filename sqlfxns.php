@@ -652,7 +652,7 @@ return $sql;
 */
 function sqlGetJudges(){
 $sql=<<<SQL
-	SELECT J.convention_name, GROUP_CONCAT(CONCAT(V.firstName, " ", V.lastName) separator ';') AS names  
+	SELECT J.convention_name, GROUP_CONCAT(DISTINCT CONCAT(V.firstName, " ", V.lastName) separator ';') AS names  
 	FROM ScholarshipJudge J JOIN Volunteer V ON J.judge_id=V.volunteer_id
 	GROUP BY J.convention_name
 SQL;

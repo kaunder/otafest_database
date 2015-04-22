@@ -570,10 +570,12 @@ return $contests;
 function createNewScholWinner($scholname, $convoyearadd, $winnername, $amount){
 
 	 //Split $winnername string on ',' to recover fname, lname
-	 $names=explode (', ' ,$winnername);
-	 $wlname=$names[0];
-	 $wfname=$names[1];
-
+		$names=explode (', ' ,$winnername);
+		$wlname=$names[0];
+		//only set $wfname if there exists second element
+		if(isset($names[1])){
+			$wfname=$names[1];
+		}
 
 	 //call SQL fxn to perform the query, store returned string
 	 $sql = SQLcreateNewScholWinner();
