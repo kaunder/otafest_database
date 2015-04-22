@@ -177,7 +177,7 @@ WHERE v.volunteer_id IN (
 	FROM Department d
     ) OR v.volunteer_id IN (
 	SELECT s.supervisor_id
-    FROM Supervises s	
+    FROM Supervises s
     )
 SQL;
 
@@ -562,7 +562,7 @@ return $sql;
 */
 function SQLgetVenue(){
 $sql=<<<SQL
-	SELECT V.venue_name, V.streetAddress, V.postalCode, V.contact_person_name, V.contact_person_number, B.firstName, B.lastName 
+	SELECT V.venue_name, V.streetAddress, V.postalCode, V.contact_person_name, V.contact_person_number, B.firstName, B.lastName
 	FROM Venue V JOIN Volunteer B ON V.coordinatingVolunteerId=B.volunteer_id JOIN Convention C ON V.venue_name = C.venue_name
 	WHERE C.convention_name=:convoyr
 SQL;
@@ -652,7 +652,7 @@ return $sql;
 */
 function sqlGetJudges(){
 $sql=<<<SQL
-	SELECT J.convention_name, GROUP_CONCAT(DISTINCT CONCAT(V.firstName, " ", V.lastName) separator ';') AS names  
+	SELECT J.convention_name, GROUP_CONCAT(DISTINCT CONCAT(V.firstName, " ", V.lastName) separator ';') AS names
 	FROM ScholarshipJudge J JOIN Volunteer V ON J.judge_id=V.volunteer_id
 	GROUP BY J.convention_name
 SQL;
@@ -662,15 +662,10 @@ return $sql;
 /*
 *Return all venues - for table format
 */
-function SQLgetVenuesTable(){ 
+function SQLgetVenuesTable(){
 $sql=<<<SQL
 SELECT N.venue_name, N.streetAddress, N.postalCode, N.contact_person_name, N.contact_person_number, V.firstName, V.lastName
 FROM Venue N LEFT OUTER JOIN Volunteer V ON N.coordinatingVolunteerId=V.volunteer_id
 SQL;
 return $sql;
 }
-
-
-
-
-
