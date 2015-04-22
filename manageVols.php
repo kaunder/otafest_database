@@ -9,7 +9,7 @@
 
 
  <!---------------Insert new volunteer---------------------------->
-	
+
 	  <h3>Add New Volunteer</h3>
 
 
@@ -23,7 +23,7 @@
 		    </div>
 		    <div class="col-md-6"> </div>
 	</div>
-</div>		    
+</div>
 
 <div class="row">
 	<div class="form-group required">
@@ -94,8 +94,8 @@
 	       //Only require that mandatory fields are set before proceeding
 		if((isset($_GET['firstName']))&&(isset($_GET['lastName']))){
 		echo "Inserting new volunteer...";
-		echo $firstName;
-		echo $nickName;
+		echo $firstName." ";
+		echo "''".$nickName."'' ";
 		echo $lastName;
 		if(!insertNewVolunteer($firstName, $lastName, $nickName, $phoneNumber, $dob)){
 			echo "ERROR: Could not add new volunteer!";
@@ -106,7 +106,7 @@
 
 
 <!---------------Modify Volunteer Comments---------------------------->
-	
+
 <h3>Add Volunteer Comments</h3>
 
 <form action="manageVols.php" method="get">
@@ -129,7 +129,7 @@
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $volname;?> <span class="caret"></span></a>
 	    </button>
 	    <ul class="dropdown-menu scrollable-menu "role="menu">
-		    	<?php 
+		    	<?php
 			if($accesslev==1){
 				//Managers cannot edit other managers comments
 				echo getVolunteersForDropdownNoMgr("manageVols.php", "");
@@ -169,7 +169,7 @@
 			if(!insertNewComment($volid, $comment)){
 			echo "ERROR: Could not insert comment!";
 		}else{
-			echo "Added new comment for ".$volname."!";
+			echo "Added new comment!";
 		}
 		}
 	       ?>
@@ -186,4 +186,3 @@
 </div>
 
     <?php include "footer.php";?>
-

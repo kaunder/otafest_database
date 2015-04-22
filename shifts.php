@@ -9,12 +9,12 @@
 
 
  <!---------------Show available volunteers for each shift------------------>
-	
+
 <h3>View Available Volunteers</h3>
 
 <form action="shifts.php" method="get">
 
-	  <b>Convention Year:</b> <!-- Single button -->
+  <b>Convention Year:</b> <!-- Single button -->
 	  <div class="btn-group">
 <!--	    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"> -->
 
@@ -57,6 +57,7 @@
 
 
 	       <!--Department Name Dropdown -->
+         <b>Department:</b> <!-- Single button -->
 	  <div class="btn-group">
 	    <a class="btn dropdown-toggle btn-select2" data-toggle="dropdown" href="#"><?php echo $dept;?> <span class="caret"></span></a>
 		  </button>
@@ -77,7 +78,7 @@
 		   $shiftname = $_GET['shiftname'];
 		}else{
 		   $shiftname="Select Shift:";
-		}	
+		}
 		if(isset($_GET['shiftstart'])){
 		   $shiftstart=$_GET['shiftstart'];
 		}
@@ -99,14 +100,14 @@
 
 
 
-	   
+
 	   <input type="hidden" name="convoyear" value="<?php echo $convoyear; ?>">
 	   <input type="hidden" name="dept" value="<?php echo $dept; ?>">
 	   <input type="hidden" name="shiftname" value="<?php echo $shiftname; ?>">
 	   <input type="hidden" name="shiftstart" value="<?php echo $shiftstart; ?>">
 	   <input type="hidden" name="shiftend" value="<?php echo $shiftend; ?>">
 	   <input type="hidden" name="go" value="1">
-	   
+
   <input type="submit" value="View Available Volunteers"/>
 
 </form>
@@ -154,8 +155,8 @@
 		if((isset($_GET['convoyear']))&&(isset($_GET['dept']))&&(isset($_GET['shiftstart']))&&(isset($_GET['shiftend']))&&($go==1)){
 		//echo "Inserting judge...$convoyearadd, $contestname, $volname";
 		echo displayAvailableVolunteers("shifts.php", $convoyear, $dept, $shiftstart, $shiftend, $shiftname);
-		
-		
+
+
 		}
 	       ?>
    </div>
@@ -164,4 +165,3 @@
 
 
     <?php include "footer.php";?>
-

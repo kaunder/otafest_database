@@ -33,7 +33,7 @@ body.intro{
 .intro-wrapper{
     min-height: 100%;
     background: rgba(255,255,255,0.333);
-    color: #009; 
+    color: #009;
 }
 
 
@@ -63,5 +63,7 @@ body.intro{
     margin-bottom:25px;
 }
 
+.secretbox {
+  display:none;
 
-
+}
